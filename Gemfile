@@ -33,7 +33,7 @@ gem 'kaminari'
 # gem 'twitter-bootstrap-rails'
 gem 'cancan'
 gem 'formtastic'
-gem 'mongoid',github:"arnkorty/mongoid"
+gem 'mongoid',github:"mongoid/mongoid"
 
 gem 'settingslogic'
 # gem 'haml-rails'

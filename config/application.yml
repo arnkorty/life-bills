@@ -1,0 +1,27 @@
+# config/application.yml
+defaults: &defaults
+  app_name: LifeBills  
+  default_items:
+    - name: dinner
+      flag: 0
+    - name: winter
+      flag: 0
+    - name: work
+      flag: 1
+    - name: other
+      flag: 1
+  default_people:
+    - name: parents
+    - name: children
+  default_accounts:
+    - name: cash
+    - name: brand
+development:
+  <<: *defaults
+  neat_setting: 800
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

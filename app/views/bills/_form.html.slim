@@ -1,0 +1,30 @@
+= form_for @bill do |f|
+  - if @bill.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@bill.errors.count, "error")} prohibited this bill from being saved:"
+      ul
+        - @bill.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = f.label :bill_type_id
+    = f.number_field :bill_type_id
+  .field
+    = f.label :item
+    = f.text_field :item
+  .field
+    = f.label :account
+    = f.text_field :account
+  .field
+    = f.label :money
+    = f.text_field :money
+  .field
+    = f.label :person
+    = f.text_field :person
+  .field
+    = f.label :bill_time
+    = f.time_select :bill_time
+  .field
+    = f.label :remark
+    = f.text_area :remark
+  .actions = f.submit 'Save'

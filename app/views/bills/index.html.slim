@@ -1,0 +1,27 @@
+/ = content_for :head_navigation do
+/   ul.nav.nav-tabs
+/     li.bill-type.active data-bill-type='outlay'
+/       a href='javascript:void(0);'  outlay
+/     li.bill-type  data-bill-type='income'
+/       a href='javascript:void(0);'  income
+/   .row
+/     .panel.bill-form#income-form
+/       = render 'income_form'
+/     .panel.bill-form#outlay-form style='display:none'
+/       = render 'outlay_form'
+.modal.fade#income-form tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
+  .modal-dialog
+    .modal-content      
+      = render 'income_form'
+
+.modal.fade#outlay-form tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
+  .modal-dialog
+    .modal-content      
+      = render 'outlay_form'
+= render 'master_form'     
+= link_to 'Income','',class:'btn btn-info pull-right new-bill',data: {toggle:'modal',target:'#income-form'}
+| &nbsp;&nbsp;&nbsp;
+= link_to 'Outlay','',class:'btn btn-info pull-right new-bill',data: {toggle:'modal',target:'#outlay-form'}
+.row
+  h3 Bills Details
+  .container

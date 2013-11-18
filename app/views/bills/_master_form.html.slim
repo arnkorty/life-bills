@@ -1,0 +1,71 @@
+.modal.fade#person-form tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
+  .modal-dialog
+    .modal-content          
+      = form_for @person,remote:true,data:{type:'json'} do |f|
+        - if @person.errors.any?
+          #error_explanation
+            h2 = "#{pluralize(@person.errors.count, "error")} prohibited this person from being saved:"
+            ul
+              - @person.errors.full_messages.each do |message|
+                li = message
+
+        .field
+          = f.label :name
+          = f.text_field :name
+        .actions = f.submit 'Save'
+
+.modal.fade#income_item-form tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
+  .modal-dialog
+    .modal-content          
+      = form_for @person,remote:true,data:{type:'json'} do |f|
+        - if @person.errors.any?
+          #error_explanation
+            h2 = "#{pluralize(@person.errors.count, "error")} prohibited this person from being saved:"
+            ul
+              - @person.errors.full_messages.each do |message|
+                li = message
+
+        .field
+          = f.label :name
+          = f.text_field :name
+        .actions = f.submit 'Save'
+.modal.fade#outlay_item-form tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
+  .modal-dialog
+    .modal-content          
+      = form_for @person,remote:true,data:{type:'json'} do |f|
+        - if @person.errors.any?
+          #error_explanation
+            h2 = "#{pluralize(@person.errors.count, "error")} prohibited this person from being saved:"
+            ul
+              - @person.errors.full_messages.each do |message|
+                li = message
+
+        .field
+          = f.label :name
+          = f.text_field :name
+        .actions = f.submit 'Save'        
+.modal.fade#account-form tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
+  .modal-dialog
+    .modal-content          
+      = form_for @person,remote:true,data:{type:'json'} do |f|
+        - if @person.errors.any?
+          #error_explanation
+            h2 = "#{pluralize(@person.errors.count, "error")} prohibited this person from being saved:"
+            ul
+              - @person.errors.full_messages.each do |message|
+                li = message
+
+        .field
+          = f.label :name
+          = f.text_field :name
+        .actions = f.submit 'Save'
+
+
+
+
+
+
+
+
+
+

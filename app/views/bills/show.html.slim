@@ -1,0 +1,27 @@
+p#notice = notice
+
+p
+  strong Bill type:
+  = @bill.bill_type_id
+p
+  strong Item:
+  = @bill.item
+p
+  strong Account:
+  = @bill.account
+p
+  strong Money:
+  = @bill.money
+p
+  strong Person:
+  = @bill.person
+p
+  strong Bill time:
+  = @bill.bill_time
+p
+  strong Remark:
+  = @bill.remark
+
+= link_to 'Edit', edit_bill_path(@bill)
+'|
+= link_to 'Back', bills_path

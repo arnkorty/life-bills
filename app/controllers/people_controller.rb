@@ -24,7 +24,7 @@ class PeopleController < ApplicationController
   # POST /people
   # POST /people.json
   def create
-    @person = Person.new(person_params)
+    @person = current_user.people.new(person_params)
 
     respond_to do |format|
       # return render json: @person if request.xhr?

@@ -16,6 +16,9 @@ defaults: &defaults
   default_accounts:
     - name: cash
     - name: brand
+  bill_types:
+    income: 1
+    outlay: 0
 development:
   <<: *defaults
   neat_setting: 800

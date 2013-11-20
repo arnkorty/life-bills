@@ -32,7 +32,7 @@ gem 'devise'
 gem 'kaminari'
 # gem 'twitter-bootstrap-rails'
 gem 'cancan'
-gem 'formtastic'
+gem 'simple_form'
 gem 'mongoid',github:"mongoid/mongoid"
 
 gem 'settingslogic'

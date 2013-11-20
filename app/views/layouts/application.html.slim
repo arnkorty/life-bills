@@ -5,14 +5,14 @@ html lang='en'
 
 		meta name='description' content=(content_for?(:description) ? yield(:description) : 'Life Bills')
 		= javascript_include_tag 'application', "data-turbolinks-track" => true 
-		= stylesheet_link_tag '//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.css',media:'all','data-turbolinks-track' => true
+		# = stylesheet_link_tag '//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.css',media:'all','data-turbolinks-track' => true
 		= stylesheet_link_tag 'application',media:'all'		
 		/ ! Le HTML5 shim, for IE6-8 support of HTML elements
 		/[if lt IE 9]
 			= javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"
 		= csrf_meta_tags		
 	body
-		header.navbar.nav-fixed-top.navbar-default role='navigation'
+		header.navbar.navbar-fixed-top.navbar-default role='navigation'
 			nav.navbar-inner
 				.container
 					= render 'layouts/navigation'

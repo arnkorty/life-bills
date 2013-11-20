@@ -10,11 +10,18 @@
  *
  *= require_self
  *= require bootstrap-datepicker
+ *= require bootstrap
  *= require_tree .
  */
 a.new-bill{
 		margin-left: 12px;	
 }
 .modal-content.master-form{	
-		margin:40px;
+		// margin:40px;
+}
+.content{
+	min-width: 400px;
+}
+main{
+  margin-top: 70px;
 }

@@ -9,6 +9,16 @@
 /       = render 'income_form'
 /     .panel.bill-form#outlay-form style='display:none'
 /       = render 'outlay_form'
+
+= link_to 'Income','',class:'btn btn-info pull-right new-bill',data: {toggle:'modal',target:'#income-form'}
+| &nbsp;&nbsp;&nbsp;
+= link_to 'Outlay','',class:'btn btn-info pull-right new-bill',data: {toggle:'modal',target:'#outlay-form'}
+.row
+  h3 
+    Bills Details
+    a.btn.btn-info Search
+  .container
+    = render 'list'
 .modal.fade#income-form tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
   .modal-dialog
     .modal-content      
@@ -19,9 +29,3 @@
     .modal-content      
       = render 'outlay_form'
 = render 'master_form'     
-= link_to 'Income','',class:'btn btn-info pull-right new-bill',data: {toggle:'modal',target:'#income-form'}
-| &nbsp;&nbsp;&nbsp;
-= link_to 'Outlay','',class:'btn btn-info pull-right new-bill',data: {toggle:'modal',target:'#outlay-form'}
-.row
-  h3 Bills Details
-  .container

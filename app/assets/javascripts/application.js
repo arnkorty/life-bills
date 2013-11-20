@@ -18,7 +18,7 @@
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN
 //= require_tree .
 $(document).ready(function(){
-  $('[data-behaviour~=datepicker]').datepicker({language:'zh-CN'});
+  $('[data-behaviour~=datepicker]').datepicker({language:'zh-CN',format:'yyyy-mm-dd'});
   // $('#new_person').bind('ajax:success',function(event,data){
   // 	// alert("sdfsdf");
   // 	console.log(data);

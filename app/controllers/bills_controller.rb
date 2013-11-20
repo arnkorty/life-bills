@@ -4,12 +4,28 @@ class BillsController < ApplicationController
   # GET /bills
   # GET /bills.json
   def index
-    @bills = Bill.all
-
+     Rails.logger.warn params[:search]
+    if params[:search].blank?
+      @bills = Bill.all.includes(:person,:account,:item)
+    else
+      @bills = Bill.all
+      params[:search].each do |s|
+        # logger.info params[:search]
+        # p '*' * 200
+        # p params[:search]
+        s.each do |key,value|
+          if value.is_a?(Hash)
+            @bills = @bills.where(key.to_s.sub(/_i\d{0,3}$/,'').to_sym.send(value[:target] || :gte) => value[:value])
+          else
+            @bills = @bills.where(key.to_s.sub(/_i\d{0,3}$/,'') => value)
+          end
+        end
+      end
+    end    
     @bill    = current_user.bills.new
-    @person  = current_user.people.new
-    @account = current_user.accounts.new
-    @item    = current_user.items.new
+    @person  = Person.new
+    @account = Account.new
+    @item    = Item.new
   end
 
   # GET /bills/1
@@ -24,12 +40,13 @@ class BillsController < ApplicationController
 
   # GET /bills/1/edit
   def edit
+    render 'edit',layout: false
   end
 
   # POST /bills
   # POST /bills.json
   def create
-    @bill = Bill.new(bill_params)
+    @bill = current_user.bills.new(bill_params)
 
     respond_to do |format|
       if @bill.save

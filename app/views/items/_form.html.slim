@@ -1,4 +1,4 @@
-= form_for @item do |f|
+= semantic_form_for @item do |f|
   - if @item.errors.any?
     #error_explanation
       h2 = "#{pluralize(@item.errors.count, "error")} prohibited this item from being saved:"
@@ -6,10 +6,7 @@
         - @item.errors.full_messages.each do |message|
           li = message
 
-  .field
-    = f.label :name
-    = f.text_field :name
-  .field
-    = f.label :parent_id
-    = f.number_field :parent_id
-  .actions = f.submit 'Save'
+  .control-group
+    = f.inputs :name
+  .control-group
+    = f.actions  

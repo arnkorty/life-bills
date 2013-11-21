@@ -20,23 +20,47 @@ require 'spec_helper'
 
 describe BillsController do
 
-  # This should return the minimal set of attributes required to create a valid
-  # Bill. As you add validations to Bill, be sure to
-  # adjust the attributes here as well.
-  let(:valid_user) { User.first  }
-  let(:valid_item) { valid_user.items.find_or_create_by(name: 'foobafd') }
-  let(:valid_attributes) { { "bill_type_id" => "1" } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
-  # BillsController. Be sure to keep this updated too.
+  # AccountsController. Be sure to keep this updated too.
+  # let
+  let(:user) { create(:user, :confirmed) }
+  
+  let(:valid_attributes) { { 
+                            'item_id' => user.items.first.to_param, 'user_id' => user.to_param,
+                            "person_id" => user.people.first.to_param, 'account_id' => user.accounts.first.to_param,
+                            "money" => 234.24, 'bill_time' => Time.now
+                            } }
+  
   let(:valid_session) { {} }
+  before { login_user user }
 
   describe "GET index" do
     it "assigns all bills as @bills" do
       bill = Bill.create! valid_attributes
       get :index, {}, valid_session
       assigns(:bills).should eq([bill])
+    end
+    context 'from params request' do 
+      before {
+        Bill.create(valid_attributes.merge(:remark => 'remark_1'))
+        Bill.create(valid_attributes.merge(:remark => 'remark_2'))
+        Bill.create(valid_attributes.merge(:remark => 'remark_3'))        
+      }
+      it 'general search' do                 
+        search_params = { search: [:remark => 'ark_2'] }
+        get :index, search_params
+        assigns(:bills).first.remark.should eql 'remark_2'        
+      end
+
+      it 'senior search' do 
+        search_params = {bill: {:remark => 'ark_2'}}
+        post 'search',search_params 
+        response.should redirect_to(bills_url(from: 'search'))
+        get :index, {from: 'search'}, session
+        assigns(:bills).first.remark.should eql 'remark_2'
+      end
     end
   end
 
@@ -67,18 +91,18 @@ describe BillsController do
     describe "with valid params" do
       it "creates a new Bill" do
         expect {
-          post :create, {:bill => valid_attributes}, valid_session
+          post :create, {:bill => valid_attributes}
         }.to change(Bill, :count).by(1)
       end
 
       it "assigns a newly created bill as @bill" do
-        post :create, {:bill => valid_attributes}, valid_session
+        post :create, {:bill => valid_attributes}
         assigns(:bill).should be_a(Bill)
         assigns(:bill).should be_persisted
       end
 
       it "redirects to the created bill" do
-        post :create, {:bill => valid_attributes}, valid_session
+        post :create, {:bill => valid_attributes}
         response.should redirect_to(Bill.last)
       end
     end

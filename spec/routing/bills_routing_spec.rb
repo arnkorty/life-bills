@@ -31,5 +31,9 @@ describe BillsController do
       delete("/bills/1").should route_to("bills#destroy", :id => "1")
     end
 
+    it "routes to #search" do 
+      post("bills/search").should route_to("bills#search")
+    end
+
   end
 end

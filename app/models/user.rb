@@ -34,6 +34,15 @@ class User
   field :unlock_token,    :type => String # Only if unlock strategy is :email or :both
   field :locked_at,       :type => Time
 
+  field :name, :type => String
+  field :username, :type => String
+
+  attr_accessor :login
+
+  validates :name, presence: true, uniqueness: true
+  validates :username, presence: true
+  validates :email, presence: true
+
   # has_one :user_info,:dependent => :destroy
   has_many :items,    :dependent => :destroy
   has_many :people,   :dependent => :destroy
@@ -41,6 +50,16 @@ class User
   has_many :bills,    :dependent => :destroy
 
   after_create :set_init_info
+  before_create :set_default_name
+
+  def self.find_first_by_auth_conditions(warden_conditions)
+    conditions = warden_conditions.dup
+    if login = conditions.delete(:login)
+      self.any_of({ :name =>  /^#{Regexp.escape(login)}$/i }, { :email =>  /^#{Regexp.escape(login)}$/i }).first
+    else
+      super
+    end
+  end
 
   def set_init_info
     # info = create_user_info
@@ -49,4 +68,11 @@ class User
     Settings.default_people.each{|p| people.create(p)} 
     Settings.default_accounts.each{|p| accounts.create(p)}
   end
+
+  def set_default_name
+    if username.blank? && email
+      username = email.split('@')[0]
+    end
+  end
+
 end

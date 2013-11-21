@@ -1,12 +1,19 @@
-= form_for @person do |f|
+= simple_form_for @person,url: person_path(@person), html: {class: 'form-general form-horizontal'} do |f|
   - if @person.errors.any?
     #error_explanation
       h2 = "#{pluralize(@person.errors.count, "error")} prohibited this person from being saved:"
       ul
         - @person.errors.full_messages.each do |message|
           li = message
-
-  .field
-    = f.label :name
-    = f.text_field :name
-  .actions = f.submit 'Save'
+  fieldset
+    legend
+      - if @person.new_record?
+        = "添加成员"
+      - else
+        = "编辑成员"
+  = f.input :name ,:label => '名称', label_html: {class: 'col-sm-2'}
+  .actions
+    .row
+      .col-sm-2
+      .col-sm-10
+        = f.submit 'Save', class: 'btn btn-success'

@@ -1,12 +1,19 @@
-= form_for @account do |f|
+= simple_form_for @account,url: account_path(@account), html: {class: 'form-general form-horizontal'} do |f|
   - if @account.errors.any?
     #error_explanation
       h2 = "#{pluralize(@account.errors.count, "error")} prohibited this account from being saved:"
       ul
         - @account.errors.full_messages.each do |message|
           li = message
-
-  .field
-    = f.label :name
-    = f.text_field :name
-  .actions = f.submit 'Save'
+  fieldset
+    legend
+      - if @account.new_record?
+        = "添加账户"
+      - else
+        = "编辑账户"
+  = f.input :name ,:label => '名称', label_html: {class: 'col-sm-2'}
+  .actions
+    .row
+      .col-sm-2
+      .col-sm-10
+        = f.submit 'Save', class: 'btn btn-success'

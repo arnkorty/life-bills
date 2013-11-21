@@ -1,10 +1,11 @@
 class PeopleController < ApplicationController
+  load_and_authorize_resource
   before_action :set_person, only: [:show, :edit, :update, :destroy]
 
   # GET /people
   # GET /people.json
   def index
-    @people = Person.all
+    @people = current_user.people.page(params[:page])
   end
 
   # GET /people/1

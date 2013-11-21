@@ -1,10 +1,10 @@
 class AccountsController < ApplicationController
-  before_action :set_account, only: [:show, :edit, :update, :destroy]
-
+  load_and_authorize_resource
+  before_action :set_account, only: [:show, :edit, :update, :destroy]  
   # GET /accounts
   # GET /accounts.json
   def index
-    @accounts = Account.all
+    @accounts = current_user.accounts.page(params[:page])
   end
 
   # GET /accounts/1
@@ -14,7 +14,7 @@ class AccountsController < ApplicationController
 
   # GET /accounts/new
   def new
-    @account = Account.new
+    @account = current_user.accounts.new
   end
 
   # GET /accounts/1/edit
@@ -28,7 +28,7 @@ class AccountsController < ApplicationController
 
     respond_to do |format|
       if @account.save
-        format.html { redirect_to @account, notice: 'Account was successfully created.' }
+        format.html { redirect_to edit_account_path(@account), notice: 'Account was successfully created.' }
         format.json { render action: 'show', status: :created, location: @account }
       else
         format.html { render action: 'new' }
@@ -42,7 +42,7 @@ class AccountsController < ApplicationController
   def update
     respond_to do |format|
       if @account.update(account_params)
-        format.html { redirect_to @account, notice: 'Account was successfully updated.' }
+        format.html { redirect_to edit_account_path(@account), notice: 'Account was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

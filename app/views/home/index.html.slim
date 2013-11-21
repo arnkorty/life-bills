@@ -1,2 +1,26 @@
-h1 Home#index
-p Find me in app/views/home/index.html.slim
+h2
+  =  render_home_h
+table.table.table-striped.table-hover.table-bordered
+  tr
+    th 序号
+    th 成员
+    - for value in Settings.bill_types.values
+      th = Settings.bill_types_zh[value]
+  - current_user.people.each_with_index do |person,index|
+    tr
+      th
+        = index + 1
+      th
+        = person.name
+      - for value in Settings.bill_types.values
+        th = @bills.person_of(person).type_of(value).sum(:money)
+  - unless @bills.blank?
+    tr
+      th colspan=2 合计
+      - for value in Settings.bill_types.values
+        th = @bills.type_of(value).sum(:money)
+
+
+
+
+

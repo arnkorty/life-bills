@@ -7,17 +7,25 @@ LifeBills::Application.routes.draw do
   end
 
 
-  resources :people
+  # resources :people
 
-  resources :accounts
+  # resources :accounts
 
-  resources :items
+  # resources :items
 
   devise_for :users do
     root to: 'home#index'
   end
 
+  
   root to: 'home#index'
+
+  scope '/settings' do
+    resources :people
+    resources :accounts
+
+    resources :items
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

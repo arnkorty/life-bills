@@ -1,12 +1,24 @@
-= semantic_form_for @item do |f|
+= simple_form_for @item,url: item_path(@item), html: {class: 'form-general form-horizontal'} do |f|
   - if @item.errors.any?
     #error_explanation
       h2 = "#{pluralize(@item.errors.count, "error")} prohibited this item from being saved:"
       ul
         - @item.errors.full_messages.each do |message|
           li = message
-
-  .control-group
-    = f.inputs :name
-  .control-group
-    = f.actions  
+  fieldset
+    legend
+      - if @item.new_record?
+        = "添加分类"
+      - else
+        = "编辑分类"
+  /= f.input :flag, :label => '所属账单类型',label_html: {class: 'col-sm-2'}
+  .form-group
+    label.control-label.col-sm-2 所属账单类型
+    .col-sm-10.input-group
+      = render_bill_select_tag(Settings.bill_types_zh, {object: :item, method: :flag, selected: @item.flag}, data: {placeholder: "选择分类"})
+  = f.input :name ,:label => '名称', label_html: {class: 'col-sm-2'}
+  .actions
+    .row
+      .col-sm-2
+      .col-sm-10
+        = f.submit 'Save', class: 'btn btn-success'

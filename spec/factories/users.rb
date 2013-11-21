@@ -9,11 +9,14 @@ FactoryGirl.define do
   factory :user do
     # login
     email
-
     password sample_password
+
+    trait :confirmed do 
+      confirmed_at Time.now 
+    end
 
     trait :second_user do 
       email "#{sample_login}_2@arnkorty.info"
-    end
+    end    
   end
 end

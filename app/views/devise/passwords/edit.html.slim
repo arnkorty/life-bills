@@ -1,14 +1,11 @@
-h2 Change your password
-= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :put }) do |f|
-  = devise_error_messages!
-  = f.hidden_field :reset_password_token
-  div
-    = f.label :password, "New password"
-    br/
-    = f.password_field :password, :autofocus => true
-  div
-    = f.label :password_confirmation, "Confirm new password"
-    br/
-    = f.password_field :password_confirmation
-  div= f.submit "Change my password"
-= render "devise/shared/links"
+= simple_form_for(resource, :as => resource_name, :url => password_path(resource_name), html: {class: 'form-sign-up form-horizontal', :method => :put}) do |f|
+  fieldset
+    legend 重置密码
+    = f.hidden_field :reset_password_token
+    = f.input :password, label:'密码',label_html: {class: 'col-sm-2'}
+    = f.input :password_confirmation, label:'确认密码',label_html: {class: 'col-sm-2'}
+    .form-group.action
+      .col-sm-2
+      .col-sm-10
+        = f.submit "确认重置密码", class:'btn btn-info'
+    = render "devise/shared/links"

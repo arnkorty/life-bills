@@ -1,19 +1,22 @@
-h1 Listing people
+h3 
+  = 'Listing people'
+  = link_to 'New Person', new_person_path, class: 'btn btn-info'
 
-table
+table.table.table-striped.table-hover.table-bordered
   tr
-    th Name
-    th
-    th
-    th
+    th 序号
+    th 名称    
+    th 操作
 
-  - @people.each do |person|
-    tr
+  - @people.each_with_index do |person,index|
+    tr id=person.to_param
+      th = index + 1
       td = person.name
-      td = link_to 'Show', person
-      td = link_to 'Edit', edit_person_path(person)
-      td = link_to 'Destroy', person, :confirm => 'Are you sure?', :method => :delete
+      td
+        = link_to render_icon(:edit), edit_person_path(person)
+        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        = render_ajax_tr_remove_link(person)
 
+.row
+  = paginate @people
 br
-
-= link_to 'New Person', new_person_path

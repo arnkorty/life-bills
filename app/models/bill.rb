@@ -7,7 +7,7 @@ class Bill
 
   field :bill_type_id, type: Integer
   field :money, type: Float
-  field :bill_time, type: Date
+  field :bill_time, type: DateTime
   field :remark, type: String
 
   belongs_to :user
@@ -24,8 +24,16 @@ class Bill
   validates_presence_of     :account_id
   validates_numericality_of :money
 
-  scope :bill_type_of,-> (flag) { where(bill_type_id: flag) }
+  scope :type_of,-> (flag) { where(bill_type_id: flag) }
 
+  scope :bills_in_current_month, -> { 
+                                            where(
+                                              :bill_time.gte => Time.now.at_beginning_of_month,
+                                              :bill_time.lte => Time.now.at_end_of_month
+                                                )
+                                          }
+  scope :person_of, -> (person) { where(person_id: person.id) }                                       
+  
   def bill_type_name
     Settings.bill_types_zh[bill_type_id] unless  bill_type_id.blank?
   end

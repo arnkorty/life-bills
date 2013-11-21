@@ -1,19 +1,22 @@
-h1 Listing accounts
+h3 
+  = 'Listing accounts'
+  = link_to 'New Account', new_account_path, class: 'btn btn-info'
 
-table
+table.table.table-striped.table-hover.table-bordered
   tr
-    th Name
-    th
-    th
-    th
+    th 序号
+    th 名称
+    th 操作
 
-  - @accounts.each do |account|
-    tr
+  - @accounts.each_with_index do |account,index|
+    tr id=account.to_param
+      th = index + 1
       td = account.name
-      td = link_to 'Show', account
-      td = link_to 'Edit', edit_account_path(account)
-      td = link_to 'Destroy', account, :confirm => 'Are you sure?', :method => :delete
+      td
+        = link_to render_icon(:edit), edit_account_path(account)
+        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        = render_ajax_tr_remove_link(account)
 
+.row
+  = paginate @accounts
 br
-
-= link_to 'New Account', new_account_path

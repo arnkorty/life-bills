@@ -1,12 +1,12 @@
 .modal.fade id="#{name_en}-form" tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
   .modal-dialog
     .modal-content
-      = form_for @bill,html:{role:'form',class:'form-horizontal new-bill-form'},remote:true,data: {type:'json', item_id: @bill.item_id} do |f|
+      = form_for @bill,html:{role:'form',class:'form-horizontal new-bill-form'},data: { item_id: @bill.item_id} do |f|
         .modal-header
           button.close type='button' data-dismiss='modal' aria-hidden='true'
             | &times;
           h4.modal-title
-            = '添加' + name
+            = render_action_name + name
         .modal-body
           .form-group style='display:none'
             = f.label :bill_type_id,class:'col-sm-2 control-label'

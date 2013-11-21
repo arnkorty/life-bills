@@ -1,35 +1,43 @@
 doctype html
 html lang='en'
-	head
-		title= @title || (content_for?(:title) ? yield(:title) : 'Life Bills')
+  head
+	title= @title || (content_for?(:title) ? yield(:title) : 'Life Bills')
+	meta name='description' content=(content_for?(:description) ? yield(:description) : 'Life Bills')
+	= stylesheet_link_tag 'application',media:'all', "data-turbolinks-track" => true
+	= javascript_include_tag 'application', "data-turbolinks-track" => true
+	/ ! Le HTML5 shim, for IE6-8 support of HTML elements
+	/[if lt IE 9]
+	  = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"
+	= csrf_meta_tags
+  body
+	header.navbar.navbar-fixed-top.navbar-default role='navigation'
+	  nav.navbar-inner
+		.container
+		  = render 'layouts/navigation'
+	main role='main'
+	  .container
+		.row
+		  = render 'layouts/messages'
+	  #content
+		.container
+		  .row
+			- if is_render_slider_settings?
+			  .col-sm-2
+			    = render 'layouts/slider_settings'
+			  .col-sm-10
+			    = content_for?(:content) ? yield(:content) : yield
+			- else
+			  = content_for?(:content) ? yield(:content) : yield
+    footer#footer
+	  .container
+		.row
+		  h1.site_name
+            = 'LifeBills'
+            span.alpha alpha
+            '
+            small 快捷管理你的生活账单，管理你的生活
+            span.copyright © 2013 arnkory
 
-		meta name='description' content=(content_for?(:description) ? yield(:description) : 'Life Bills')
-		= stylesheet_link_tag 'application',media:'all', "data-turbolinks-track" => true 
-		= javascript_include_tag 'application', "data-turbolinks-track" => true 		
-		# = stylesheet_link_tag '//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.css',media:'all','data-turbolinks-track' => true		
-		/ ! Le HTML5 shim, for IE6-8 support of HTML elements
-		/[if lt IE 9]
-			= javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"
-		= csrf_meta_tags		
-	body
-		header.navbar.navbar-fixed-top.navbar-default role='navigation'
-			nav.navbar-inner
-				.container
-					= render 'layouts/navigation'
-		main role='main'
-			.container
-				.row
-					= render 'layouts/messages'							
-			.container
-				.row
-					= yield :head_navigation
 
-			#content
-				.container
-					= content_for?(:content) ? yield(:content) : yield
-		footer#footer
-			.container
-				.row
-					h1 Life Bills
-		= javascript_include_tag 'bills'
+    = javascript_include_tag 'bills'
 

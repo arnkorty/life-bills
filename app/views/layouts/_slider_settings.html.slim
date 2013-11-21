@@ -1,0 +1,8 @@
+.tabbable
+  ul.nav.nav-stacked.nav-pills
+    li class="#{controller_name == 'items' ? 'active' : ''}"
+      = link_to '分类' , controller_name == 'items' ? '#' : items_path
+    li class="#{controller_name == 'account' ? 'active' : ''}"
+      = link_to '账户' , controller_name == 'account' ? '#' : accounts_path
+    li class="#{controller_name == 'people' ? 'active' : ''}"
+      = link_to '成员' , controller_name == 'people' ? '#' : people_path

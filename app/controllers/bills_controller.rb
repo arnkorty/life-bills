@@ -1,15 +1,16 @@
 class BillsController < ApplicationController
+  load_and_authorize_resource
   before_action :set_bill, only: [:show, :edit, :update, :destroy]
 
   # GET /bills
   # GET /bills.json
   def index
-    @bills = Bill.all.includes(:person,:account,:item)
+    @bills = current_user.bills.includes(:person,:account,:item)
     if params[:search].blank? && params[:from].blank?      
       session[:search_bills] = nil
     else
       session[:search_bills] ||= {}
-      unless params[:from] == 'search'
+      unless ['search','create'].include?(params[:from])
         # @bills = Bill.all        
         if params[:search].is_a?(Array)
           params[:search].each do |s|
@@ -31,20 +32,21 @@ class BillsController < ApplicationController
         end
       end
       session[:search_bills].each do |key,value|
+        key_sym = key.to_sym
         if value.is_a?(Hash)
           value.each do |k1, v1|
-            @bills = @bills.where(key.to_sym.send(k1 ) => v1)
+            @bills = @bills.where(key_sym.send(k1 ) => v1)
           end            
         else 
-          if value.is_a?(Array)                        
-            @bills = @bills.where(key.to_sym.in => value)            
+          if value.is_a?(Array)                                    
+            @bills = @bills.where(key_sym.in => value)            
           else
-            @bills = @bills.where(key.to_sym => value)
+            @bills = @bills.where(key_sym=> (key_sym == :remark ? Regexp.new(value) : value))
           end
         end
       end
     end    
-    @bills = @bills.page(params[:page]).per(4)
+    @bills = @bills.page(params[:page])
     @bill    = current_user.bills.new
     @person  = Person.new
     @account = Account.new
@@ -73,7 +75,7 @@ class BillsController < ApplicationController
 
     respond_to do |format|
       if @bill.save
-        format.html { redirect_to @bill, notice: 'Bill was successfully created.' }
+        format.html { redirect_to bills_path(from: :create), notice: '成功创建账单' }
         format.json { render action: 'show', status: :created, location: @bill }
       else
         format.html { render action: 'new' }
@@ -114,7 +116,7 @@ class BillsController < ApplicationController
         value.delete_if{|v| v.blank? } if value.is_a?(Array)
         value.delete_if{|_, v| v.blank? } if value.is_a?(Hash)
       
-        value = Regexp.new(value) if key.to_sym == :remark && !value.blank?
+        # value = Regexp.new(value) if key.to_sym == :remark && !value.blank?
         session[:search_bills][key.to_sym] = value unless value.blank?
         # case value.class
         # when String
@@ -128,7 +130,7 @@ class BillsController < ApplicationController
       end
       # params.each do ||
     end
-    Rails.logger.warn session[:search_bills].to_json
+    # Rails.logger.warn session[:search_bills].to_json
     # redirect_to bills_path(from: 'search')
     redirect_to bills_path(from: 'search')
   end

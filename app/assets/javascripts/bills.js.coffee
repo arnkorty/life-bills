@@ -37,7 +37,7 @@ jQuery(document).ready ->
 		# console.log(request.responseJSON)
 		# console.log(settings)
 	jQuery('a.ajax-remove-tr').bind 'ajax:success', (event,data)->		
-		id = jQuery(this).data('removeId')			
+		id = jQuery(this).data('removeId')
 		jQuery("#"+id).remove()
 	jQuery('a.ajax-edit-tr').bind 'ajax:success', (event,data) ->
 		modal = jQuery('#edit-bill-modal')

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Account do  
   let(:user) { create :user }
-  let(:account) { FactoryGirl.build(:account)  }  
+  let(:account) { FactoryGirl.build(:account)  }
   subject { account }
 
 

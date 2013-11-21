@@ -1,21 +1,23 @@
-h1 Listing items
+h3 
+  = 'Listing items'
+  '
+  = link_to 'New item', new_item_path, class: 'btn btn-info'
 
-table
+table.table.table-striped.table-hover.table-bordered
   tr
-    th Name
-    th Parent
-    th
-    th
-    th
+    th 序号
+    th 名称    
+    th 操作
 
-  - @items.each do |item|
-    tr
+  - @items.each_with_index do |item,index|
+    tr id=item.to_param
+      th = index + 1
       td = item.name
-      td = item.parent_id
-      td = link_to 'Show', item
-      td = link_to 'Edit', edit_item_path(item)
-      td = link_to 'Destroy', item, :confirm => 'Are you sure?', :method => :delete
+      td
+        = link_to render_icon(:edit), edit_item_path(item)
+        | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        = render_ajax_tr_remove_link(item)
 
+.row
+  = paginate @items
 br
-
-= link_to 'New Item', new_item_path

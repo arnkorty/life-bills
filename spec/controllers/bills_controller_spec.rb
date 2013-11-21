@@ -23,6 +23,8 @@ describe BillsController do
   # This should return the minimal set of attributes required to create a valid
   # Bill. As you add validations to Bill, be sure to
   # adjust the attributes here as well.
+  let(:valid_user) { User.first  }
+  let(:valid_item) { valid_user.items.find_or_create_by(name: 'foobafd') }
   let(:valid_attributes) { { "bill_type_id" => "1" } }
 
   # This should return the minimal set of values that should be in the session

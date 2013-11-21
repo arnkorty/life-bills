@@ -1,62 +1,43 @@
-= form_for @bill,html:{role:'form',class:'form-horizontal new-bill-form'},remote:true,data: {type:'json'} do |f|
-  .modal-header
-  	button.close type='button' data-dismiss='modal' aria-hidden='true'
-  	  | &times;
-  	h4.modal-title 高级搜索
-  .modal-body
-  	.form-group style='display:none'
-      = f.label :bill_type_id,class:'col-sm-2 control-label'
-      .col-sm-10.input-group                                                                                   散
-    	= f.text_field :bill_type_id,class:'form-control'
-  	.form-group
-      = f.label '分类',class:'col-sm-2 control-label'
-      .col-sm-10.input-group.modal-list
-    	span.input-group-addon
-    	  i.glyphicon.glyphicon-plus data-toggle='modal' data-target='#income_item-form'
-    	= render_bill_item_select_tag(0)
-  	.form-group
-      = f.label '账户',class:'col-sm-2 control-label'
-      .col-sm-10.input-group.modal-list
-    	span.input-group-addon
-    	  i.glyphicon.glyphicon-plus data-toggle='modal' data-target='#account-form'
-    	.form-control.display 无
-    	= f.hidden_field :account_id,class:'form-control',placeholder:"select Itme"
-    	.input-group-btn
-    	  button.btn.btn-default.dropdown-toggle data-toggle='dropdown'  type='button'    	    
-    		span.caret
-    	  ul.dropdown-menu.pull-right#modal-accounts-li role='menu'
-    	    li = link_to '无', 'javascript:void(0);', data:{ id:'', name: '无'}
-    	    - for account in current_user.accounts
-    		  li
-                = link_to account.name, 'javascript:void(0);', data:{ id: account.id.to_s, name: account.name}
-  	.form-group
-      = f.label '家庭成员',class:'col-sm-2 control-label'
-      .col-sm-10.input-group.modal-list
-        span.input-group-addon
-    	  i.glyphicon.glyphicon-plus data-toggle='modal' data-target='#person-form'
-    	.form-control.display 无
-        = f.hidden_field :person_id,class:'form-control',placeholder:"select Itme"
-    	.input-group-btn
-    	  button.btn.btn-default.dropdown-toggle data-toggle='dropdown'  type='button'    		
-    		span.caret
-    	  ul.dropdown-menu.pull-right#modal-people-li role='menu'
-    	    li = link_to '无', 'javascript:void(0);', data:{ id:'', name: '无'}
-    	    - for person in current_user.people
-    	      li
-                = link_to person.name, 'javascript:void(0);', data: { id: person.id.to_s, name: person.name}
-  	.form-group
-	    = f.label :money,class:'col-sm-2 control-label'
-    	.col-sm-10.input-group
-    	  input.form-control name='bill[money][gte]',placeholder:"最小金额",data:{behaviour:'datepicker'}
-          input.form-control name='bill[money][lte]',placeholder:"最大金额",data:{behaviour:'datepicker'}
-  	.form-group
-    	= f.label :bill_time,class:'col-sm-2 control-label'
-    	.col-sm-10.input-group
-    	    input.form-control name='bill[bill_time][gte]',placeholder:"开始时间",data:{behaviour:'datepicker'}
-    	    input.form-control name='bill[bill_time][lte]',placeholder:"结束时间",data:{behaviour:'datepicker'}
-  	.form-group
-    	= f.label :remark,class:'col-sm-2 control-label'
-    	.col-sm-10.input-group
-    		= f.text_field :remark,class:'form-control',placeholder:"查询备注信息"
-  .modal-footer
-  	.actions = f.submit 'Save' ,class:'btn btn-primary'
+.modal.fade#search-form tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
+  .modal-dialog
+    .modal-content
+      = form_for @bill, url: '/bills/search' ,html:{role:'form',class:'form-horizontal new-bill-form'}  do |f|
+        .modal-header
+          button.close type='button' data-dismiss='modal' aria-hidden='true'
+            | &times;
+          h4.modal-title 高级搜索
+        .modal-body
+          .form-group
+            = f.label '分类',class:'col-sm-2 control-label'
+            .col-sm-10.input-group.modal-list
+          	  = render_bill_multiple_select_tag(current_user.items.bill_items(Settings.bill_types.income), {object: :bill, method: :item_id}, data: {placeholder: '选择项目'})
+          .form-group
+            = f.label '账户',class:'col-sm-2 control-label'
+            .col-sm-10.input-group.modal-list
+              = render_bill_multiple_select_tag(current_user.accounts, {object: :bill, method: :account_id}, data: {placeholder: '选择账户'})
+          .form-group
+            = f.label '家庭成员',class:'col-sm-2 control-label'
+            .col-sm-10.input-group.modal-list
+              = render_bill_multiple_select_tag(current_user.accounts, {object: :bill, method: :person_id}, data: {placeholder: '选择成员'})
+          .form-group
+      	    = f.label :money,class:'col-sm-2 control-label'
+          	.col-sm-10.input-group
+              .row
+                .col-sm-6.input-group
+          	      input.form-control name='bill[money][gte]' placeholder="最小金额"
+          	    .col-sm-6.input-group
+                  input.form-control name='bill[money][lte]' placeholder="最大金额"
+          .form-group
+          	= f.label :bill_time,class:'col-sm-2 control-label'
+          	.col-sm-10.input-group
+              .row
+                .col-sm-6.input-group
+          	      input.form-control name='bill[bill_time][gte]' placeholder="开始时间" data-behaviour='datepicker'
+          	    .col-sm-6.input-group
+          	      input.form-control name='bill[bill_time][lte]' placeholder="结束时间" data-behaviour='datepicker'
+          .form-group
+          	= f.label :remark,class:'col-sm-2 control-label'
+          	.col-sm-10.input-group
+          	  = f.text_field :remark,class:'form-control',placeholder:"查询备注信息"
+        .modal-footer
+          .actions = f.submit '搜索' ,class:'btn btn-primary'

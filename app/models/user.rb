@@ -44,8 +44,9 @@ class User
 
   def set_init_info
     # info = create_user_info
-    Settings.default_items.each{|p| info.items.create(p)}
-    Settings.default_people.each{|p| info.people.create(p)} 
-    Settings.default_accounts.each{|p| info.accounts.create(p)}
+    Settings.bill_types.values.each{|i| items.create(name: '无', flag: i)}
+    Settings.default_items.each{|p| items.create(p)}
+    Settings.default_people.each{|p| people.create(p)} 
+    Settings.default_accounts.each{|p| accounts.create(p)}
   end
 end

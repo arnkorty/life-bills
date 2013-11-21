@@ -1,7 +1,7 @@
 .modal.fade#person-form tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
   .modal-dialog
     .modal-content          
-      = form_for @person,remote:true,data:{type:'json', select_target:'#bill_person_id'},html:{role:'form',class:'form-horizontal master-form'} do |f|
+      = form_for @person,remote:true,data:{type:'json', select_target:'.bill_person_id'},html:{role:'form',class:'form-horizontal master-form'} do |f|
         - if @person.errors.any?
           #error_explanation
             h2 = "#{pluralize(@person.errors.count, "error")} prohibited this person from being saved:"
@@ -11,7 +11,7 @@
         .modal-header
           button.close type='button' data-dismiss='modal' aria-hidden='true'
             | &times;
-          h4.modal-title New Income
+          h4.modal-title 添加成员
         .modal-body
           .form-group
             = f.label :name,class:'control-label col-sm-2'
@@ -21,56 +21,10 @@
         .modal-footer
           .actions = f.submit 'Save',class:'btn btn-info'
 
-.modal.fade#income_item-form tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
-  .modal-dialog
-    .modal-content          
-      = form_for @item, remote:true, data:{type:'json', select_target:'#bill_item_id'}, html:{role:'form',class:'form-horizontal master-form'} do |f|
-        - if @person.errors.any?
-          #error_explanation
-            h2 = "#{pluralize(@person.errors.count, "error")} prohibited this person from being saved:"
-            ul
-              - @person.errors.full_messages.each do |message|
-                li = message
-        .modal-header
-          button.close type='button' data-dismiss='modal' aria-hidden='true'
-            | &times;
-          h4.modal-title New Income
-        .modal-body
-          .form-group
-            = f.label :name,class:'control-label col-sm-2'
-            .col-sm-10.input-group
-              = f.text_field :name,class:'form-control'
-              = f.hidden_field :user_id,value: current_user.id
-              = f.hidden_field :flag,value: 1
-        .modal-footer
-          .actions = f.submit 'Save',class:'btn btn-info'
-.modal.fade#outlay_item-form tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
-  .modal-dialog
-    .modal-content          
-      = form_for @item,remote:true,data:{type:'json',modal_li:'#modal-items-li'},html:{role:'form',class:'form-horizontal master-form'} do |f|
-        - if @person.errors.any?
-          #error_explanation
-            h2 = "#{pluralize(@person.errors.count, "error")} prohibited this person from being saved:"
-            ul
-              - @person.errors.full_messages.each do |message|
-                li = message
-        .modal-header
-          button.close type='button' data-dismiss='modal' aria-hidden='true'
-            | &times;
-          h4.modal-title New Income
-        .modal-body
-          .form-group
-            = f.label :name,class:'control-label col-sm-2'
-            .col-sm-10.input-group
-              = f.text_field :name,class:'form-control'
-              = f.hidden_field :user_id,value: current_user.id
-              = f.hidden_field :flag,value: 0
-        .modal-footer
-          .actions = f.submit 'Save'        ,class:'btn btn-info'
 .modal.fade#account-form tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
   .modal-dialog
     .modal-content          
-      = form_for @account,remote:true,data:{type:'json', modal_li:'#modal-accounts-li'},html:{role:'form',class:'form-horizontal master-form'} do |f|
+      = form_for @account,remote:true,data:{type: 'json', select_target: '.bill_account_id'},html:{role:'form',class:'form-horizontal master-form'} do |f|
         - if @person.errors.any?
           #error_explanation
             h2 = "#{pluralize(@person.errors.count, "error")} prohibited this person from being saved:"
@@ -80,7 +34,7 @@
         .modal-header
           button.close type='button' data-dismiss='modal' aria-hidden='true'
             | &times;
-          h4.modal-title New Income
+          h4.modal-title 添加账户
         .modal-body
           .form-group
             = f.label :name,class:'control-label col-sm-2'
@@ -89,6 +43,8 @@
               = f.hidden_field :user_id,value: current_user.id
         .modal-footer
           .actions = f.submit 'Save'        ,class:'btn btn-info'
+
+= render_items_form
 
 
 

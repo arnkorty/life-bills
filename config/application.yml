@@ -2,23 +2,24 @@
 defaults: &defaults
   app_name: LifeBills  
   default_items:
-    - name: dinner
+    - name: 早餐
       flag: 0
-    - name: winter
-      flag: 0
-    - name: work
-      flag: 1
-    - name: other
+    - name: 工资
       flag: 1
   default_people:
-    - name: parents
-    - name: children
+    - name: 无
   default_accounts:
-    - name: cash
-    - name: brand
+    - name: 无
   bill_types:
-    income: 1
     outlay: 0
+    income: 1    
+    lend: 2
+    borrow: 3
+  bill_types_zh:
+    - 支出
+    - 收入
+    - 借出
+    - 归还
 development:
   <<: *defaults
   neat_setting: 800

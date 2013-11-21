@@ -14,4 +14,8 @@ module ApplicationHelper
   def master_name(obj)
     obj ? obj.name : ''
   end
+
+  def render_new_icon
+    content_tag(:i,nil,class: 'glyphicon glyphicon-plus')
+  end
 end

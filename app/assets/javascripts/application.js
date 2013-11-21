@@ -9,18 +9,29 @@
 //
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
-//
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap
 //= require bootstrap-datepicker/core
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN
-//= require_tree .
-$(document).ready(function(){
-  $('[data-behaviour~=datepicker]').datepicker({language:'zh-CN',format:'yyyy-mm-dd'});
+//= require jquery.chosen
+// window.Object.prototype.getNodeOf = function(str) {
+//   var node, self, _i, _len, _ref;
+//   self = this;
+//   _ref = str.split('.');
+//   for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+//     node = _ref[_i];
+//     self = self[node];
+//   }
+//   return self;
+// }; 
+billTypes = []
+jQuery(document).ready(function(){
+  jQuery('[data-behaviour~=datepicker]').datepicker({language:'zh-CN',format:'yyyy-mm-dd'});
   // $('#new_person').bind('ajax:success',function(event,data){
   // 	// alert("sdfsdf");
   // 	console.log(data);
   // })
+  
 })

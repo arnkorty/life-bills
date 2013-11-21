@@ -44,10 +44,12 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+
 group :development,:test do
 	gem 'pry-rails'
 	gem 'better_errors'
 	gem "binding_of_caller"
+	gem 'rack-mini-profiler'
 end
 
 group :test do

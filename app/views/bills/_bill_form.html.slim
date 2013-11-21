@@ -1,0 +1,47 @@
+.modal.fade id="#{name_en}-form" tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
+  .modal-dialog
+    .modal-content
+      = form_for @bill,html:{role:'form',class:'form-horizontal new-bill-form'},remote:true,data: {type:'json', item_id: @bill.item_id} do |f|
+        .modal-header
+          button.close type='button' data-dismiss='modal' aria-hidden='true'
+            | &times;
+          h4.modal-title
+            = '添加' + name
+        .modal-body
+          .form-group style='display:none'
+            = f.label :bill_type_id,class:'col-sm-2 control-label'
+            .col-sm-10.input-group
+          	  = f.text_field :bill_type_id,class:'form-control', value: Settings.bill_types.send(name_en)
+          .form-group
+            = f.label '分类',class:'col-sm-2 control-label'
+            .col-sm-10.input-group.modal-list
+          	  span.input-group-addon data-toggle='modal' data-target="##{name_en}_item-form"
+          	    i.glyphicon.glyphicon-plus
+          	  = render_bill_select_tag(current_user.items.bill_items(Settings.bill_types.send(name_en)), {object: :bill, method: :item_id, selected: @bill.item_id}, data: {placeholder: "选择分类"}, id: "#{name_en}-bill_item_id")
+          .form-group
+            = f.label '账户',class:'col-sm-2 control-label'
+            .col-sm-10.input-group.modal-list
+          	  span.input-group-addon data-toggle='modal' data-target='#account-form'
+          	    i.glyphicon.glyphicon-plus
+          	  = render_bill_select_tag(current_user.accounts, {object: :bill, method: :account_id, selected: @bill.account_id}, data: {placeholder: "选择账户"}, class: 'bill_account_id')
+          .form-group
+            = f.label '家庭成员',class:'col-sm-2 control-label'
+            .col-sm-10.input-group.modal-list
+              span.input-group-addon data-toggle='modal' data-target='#person-form'
+          	    i.glyphicon.glyphicon-plus
+          	  = render_bill_select_tag(current_user.people, {object: :bill, method: :person_id, selected: @bill.person_id}, data: {placeholder: "选择成员"}, class: 'bill_person_id')
+          .form-group
+      	    = f.label :money,class:'col-sm-2 control-label'
+          	.col-sm-10.input-group
+          	  = f.text_field :money,class:'form-control',placeholder:"金额"
+          .form-group
+            = f.label :bill_time,class:'col-sm-2 control-label'
+            .col-sm-10.input-group
+          	  = f.text_field :bill_time,class:'form-control',placeholder:"时间",data:{behaviour:'datepicker'}
+          .form-group
+            = f.label :remark,class:'col-sm-2 control-label'
+            .col-sm-10.input-group
+              = f.text_area :remark,class:'form-control',placeholder:"备注"
+        .modal-footer
+          .actions = f.submit 'Save' ,class:'btn btn-primary'
+

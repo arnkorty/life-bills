@@ -4,28 +4,51 @@ class BillsController < ApplicationController
   # GET /bills
   # GET /bills.json
   def index
-     Rails.logger.warn params[:search]
-    if params[:search].blank?
-      @bills = Bill.all.includes(:person,:account,:item)
+    @bills = Bill.all.includes(:person,:account,:item)
+    if params[:search].blank? && params[:from].blank?      
+      session[:search_bills] = nil
     else
-      @bills = Bill.all
-      params[:search].each do |s|
-        # logger.info params[:search]
-        # p '*' * 200
-        # p params[:search]
-        s.each do |key,value|
-          if value.is_a?(Hash)
-            @bills = @bills.where(key.to_s.sub(/_i\d{0,3}$/,'').to_sym.send(value[:target] || :gte) => value[:value])
+      session[:search_bills] ||= {}
+      unless params[:from] == 'search'
+        # @bills = Bill.all        
+        if params[:search].is_a?(Array)
+          params[:search].each do |s|
+            session[:search_bills] ||= {}
+            s.each do |key,value|            
+              if value.is_a?(Array)
+                session[:search_bills][key.to_sym] = {} if session[:search_bills][key.to_sym].blank? || !session[:search_bills][key.to_sym].is_a?(Hash)
+                value.each do |v| 
+                  #@bills = @bills.where(key.to_sym.send(v[:target] || :gte ) => v[:value])
+                  session[:search_bills][key.to_sym][v[:target]] = v[:value]
+                end
+              else
+                session[:search_bills][key.to_sym] = value
+              end
+            end
+          end
+        else
+          session[:search_bills].delete(params[:search][:clean].to_sym)
+        end
+      end
+      session[:search_bills].each do |key,value|
+        if value.is_a?(Hash)
+          value.each do |k1, v1|
+            @bills = @bills.where(key.to_sym.send(k1 ) => v1)
+          end            
+        else 
+          if value.is_a?(Array)                        
+            @bills = @bills.where(key.to_sym.in => value)            
           else
-            @bills = @bills.where(key.to_s.sub(/_i\d{0,3}$/,'') => value)
+            @bills = @bills.where(key.to_sym => value)
           end
         end
       end
     end    
+    @bills = @bills.page(params[:page]).per(4)
     @bill    = current_user.bills.new
     @person  = Person.new
     @account = Account.new
-    @item    = Item.new
+    @item    = Item.new    
   end
 
   # GET /bills/1
@@ -40,7 +63,7 @@ class BillsController < ApplicationController
 
   # GET /bills/1/edit
   def edit
-    render 'edit',layout: false
+    render :partial=>'bill_form', locals: {name: @bill.bill_type_name || '', name_en: @bill.bill_type_name_en || ''}
   end
 
   # POST /bills
@@ -65,7 +88,7 @@ class BillsController < ApplicationController
     respond_to do |format|
       if @bill.update(bill_params)
         format.html { redirect_to @bill, notice: 'Bill was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render  action: 'show', status: :created, location: @bill }
       else
         format.html { render action: 'edit' }
         format.json { render json: @bill.errors, status: :unprocessable_entity }
@@ -81,6 +104,33 @@ class BillsController < ApplicationController
       format.html { redirect_to bills_url }
       format.json { head :no_content }
     end
+  end
+
+  def search
+    if params[:bill]
+      session[:search_bills] = {}
+      params[:bill].each do |key, value|
+        
+        value.delete_if{|v| v.blank? } if value.is_a?(Array)
+        value.delete_if{|_, v| v.blank? } if value.is_a?(Hash)
+      
+        value = Regexp.new(value) if key.to_sym == :remark && !value.blank?
+        session[:search_bills][key.to_sym] = value unless value.blank?
+        # case value.class
+        # when String
+        #   session[:search_bills][key] = value
+        # when Array
+        #   value.delete_if{|v| v.blank? }
+        #   session[:search_bills][key] = value
+        # when Hash                       
+        #   session[:search_bills][key] = value
+        # end
+      end
+      # params.each do ||
+    end
+    Rails.logger.warn session[:search_bills].to_json
+    # redirect_to bills_path(from: 'search')
+    redirect_to bills_path(from: 'search')
   end
 
   private

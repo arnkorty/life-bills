@@ -1,0 +1,18 @@
+.modal.fade id="#{name_en}_item-form" tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
+  .modal-dialog
+    .modal-content
+      = form_for @item,remote:true,data:{type:'json', select_target: "##{name_en}-bill_item_id" },html:{role:'form',class:'form-horizontal master-form'} do |f|
+        .modal-header
+          button.close type='button' data-dismiss='modal' aria-hidden='true'
+            | &times;
+          h4.modal-title
+            = "添加 #{name} 分类"
+        .modal-body
+          .form-group
+            = f.label :name,class:'control-label col-sm-2'
+            .col-sm-10.input-group
+              = f.text_field :name,class:'form-control'
+              = f.hidden_field :user_id,value: current_user.id
+              = f.hidden_field :flag,value: Settings.bill_types.send(name_en)
+        .modal-footer
+          .actions = f.submit 'Save',class:'btn btn-info'

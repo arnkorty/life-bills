@@ -10,22 +10,28 @@
 /     .panel.bill-form#outlay-form style='display:none'
 /       = render 'outlay_form'
 
-= link_to 'Income','',class:'btn btn-info pull-right new-bill',data: {toggle:'modal',target:'#income-form'}
-| &nbsp;&nbsp;&nbsp;
-= link_to 'Outlay','',class:'btn btn-info pull-right new-bill',data: {toggle:'modal',target:'#outlay-form'}
+
 .row
   h3 
     Bills Details
-    a.btn.btn-info Search
+    '
+    '
+    a.btn.btn-info data-toggle='modal' data-target='#search-form' 高级搜索
+    = render_new_bill_link
+
   .container
     = render 'list'
-.modal.fade#income-form tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
-  .modal-dialog
-    .modal-content      
-      = render 'income_form'
+= render_bill_form
+= render 'search_form'
+/= render 'bill_form', name: '收入', name_en: 'income'
+/.modal.fade#income-form tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
+/  .modal-dialog
+/    .modal-content
+/      = render 'income_form'
 
-.modal.fade#outlay-form tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
-  .modal-dialog
-    .modal-content      
-      = render 'outlay_form'
-= render 'master_form'     
+
+      = render 'search_form'
+= render 'master_form'
+#edit-bill-modal
+.row
+  = debug(session[:search_bills])

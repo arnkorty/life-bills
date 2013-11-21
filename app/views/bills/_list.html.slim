@@ -1,60 +1,61 @@
-#edit-bill-modal.modal tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
 table.table.table-striped.table-hover.table-bordered
   tr
-    th 序号             
+    th
+      = link_to '全部<i class="glyphicon glyphicon-refresh"/>'.html_safe, bills_path
     th 
       .dropdown
         a data-toggle='dropdown' href='#' 时间范围
         ul.dropdown-menu role='menu'
-          li = link_to '全部',bills_path
-          li = link_to '1月之内',bills_path(search:[ {bill_time:{value: Time.now - 1.month, target: 'gte' }}])
-          li = link_to '3月之内',bills_path(search:[ {bill_time:{value: Time.now - 1.month, target: 'gte' }}])
-          li = link_to '半年之内',bills_path(search:[ {bill_time:{value: Time.now - 1.month, target: 'gte' }}])
-          li = link_to '一年之内',bills_path(search:[ {bill_time:{value: Time.now - 1.year, target: 'gte' }}])
+          li = link_to '全部',bills_path(search: {clean: 'bill_time'})
+          li = link_to '1月之内',bills_path(search: [{bill_time: [value: Time.now - 1.month, target: 'gte' ]}])
+          li = link_to '3月之内',bills_path(search: [{bill_time: [value: Time.now - 1.month, target: 'gte' ]}])
+          li = link_to '半年之内',bills_path(search: [{bill_time: [value: Time.now - 1.month, target: 'gte' ]}])
+          li = link_to '一年之内',bills_path(search: [{bill_time: [value: Time.now - 1.year, target: 'gte' ]}])
 
     th
       .dropdown
         a data-toggle='dropdown' href='#' 账单类型
         ul.dropdown-menu role='menu'
-          li = link_to '全部',bills_path
-          li = link_to '支出',bills_path(search:[ {bill_type_id: 0 }])
-          li = link_to '收入',bills_path(search:[ {bill_type_id: 1 }])
+          li = link_to '全部',bills_path(search: {clean: 'bill_type_id'})
+          - for bill_type_id in @bills.distinct(:bill_type_id).delete_if{|t| t.blank? }
+            li = link_to Settings.bill_types_zh[bill_type_id ], bills_path(search: [{bill_type_id: bill_type_id }])
+          /li = link_to '收入',bills_path(search:[ {bill_type_id: 1 }])
     th
       .dropdown
         a data-toggle='dropdown' href='#' 账单金额
         ul.dropdown-menu role='menu'
-          li = link_to '全部',bills_path
-          li = link_to '100之内',bills_path(search:[ {money:{value: 100, target: 'lte' }}])
-          li = link_to '100~300',bills_path(search:[ {money:{value: 100, target: 'gte' }},{money_i233:{value: 300,target: 'lte'}}])
-          li = link_to '300~1000',bills_path(search:[ {money:{value: 300, target: 'gte' }},{money_i231:{value: 1000,target: 'lte'}}])
-          li = link_to '1000以上',bills_path(search:[ {money:{value: 1000, target: 'gte' }}])
+          li = link_to '全部',bills_path(search: {clean: 'money'})
+          li = link_to '100之内',bills_path(search: [{money: [value: 100, target: 'lte' ]}])
+          li = link_to '100~300',bills_path(search: [{money: [{value: 100, target: 'gte' }, {value: 300,target: 'lte' }]}])
+          li = link_to '300~1000',bills_path(search: [{money: [{value: 300, target: 'gte' }, {value: 1000,target: 'lte' }]}])
+          li = link_to '1000以上',bills_path(search: [{money: [value: 1000, target: 'gte' ]}])
     th
       .dropdown
         a data-toggle='dropdown' href='#' 项目
         ul.dropdown-menu role='menu'
-          li = link_to '全部',bills_path
-          - for item in current_user.items
+          li = link_to '全部', bills_path(search: {clean: 'item_id'})
+          - for item in current_user.items.where(:id.in => @bills.distinct(:item_id))
             li = link_to item.name, bills_path(search:[ {item_id: item.id }])
     th
       .dropdown
         a data-toggle='dropdown' href='#' 账户
         ul.dropdown-menu role='menu'
-          li = link_to '全部',bills_path
-          - for account in current_user.accounts
+          li = link_to '全部', bills_path(search: {clean: 'account_id'})
+          - for account in current_user.accounts.where(:id.in => @bills.distinct(:account_id))
             li = link_to account.name, bills_path(search:[ {account_id: account.id }])
     th 
       .dropdown
         a data-toggle='dropdown' href='#' 成员
         ul.dropdown-menu role='menu'
-          li = link_to '全部',bills_path
-          - for person in current_user.people
+          li = link_to '全部', bills_path(search: {clean: 'person_id'})
+          - for person in current_user.people.where(:id.in => @bills.distinct(:person_id))
             li = link_to person.name, bills_path(search:[ {person_id: person.id }])
     th 操作
   - @bills.each_with_index do |bill,index|
     tr id=bill.id
       td = index + 1
       td field='bill_tiem' = bill.bill_time
-      td field='bill_type_id' = bill.bill_type_id
+      td = Settings.bill_types_zh[bill.bill_type_id ] if bill.bill_type_id
       td field='money' = bill.money
       td field='item.name' = master_name(bill.item)
       td field='account.name' = master_name(bill.account)
@@ -65,6 +66,8 @@ table.table.table-striped.table-hover.table-bordered
         | &nbsp;&nbsp;&nbsp;&nbsp;
         a.ajax-edit-tr href=edit_bill_path(bill)   data-edit-id=bill.id data-remote=true
           i.glyphicon.glyphicon-edit
+.row
+  = paginate @bills
 
 
 

@@ -32,11 +32,12 @@ module BillsHelper
 
   def render_new_bill_link
     html = ''
-    Settings.bill_types.each{ |key, value|
-      html << link_to(("添加" + Settings.bill_types_zh[value] + render_new_icon).html_safe,'',
-                  class:'btn btn-info pull-right new-bill',data: {toggle:'modal',target: "##{key}-form"})
+    # sort bill types
+    Settings.bill_types.sort{|v1,v2| v2[1] <=> v1[1]}.each{ |bill_type|      
+      html << link_to(("添加" + Settings.bill_types_zh[bill_type[1]] + render_new_icon).html_safe, '',
+                  class:'btn btn-info pull-right new-bill',data: {toggle:'modal',target: "##{bill_type[0]}-form"})
     }
-    html.html_safe    
+    html    
   end
 
 end

@@ -1,5 +1,5 @@
 class AccountsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource except: [:create]
   before_action :set_account, only: [:show, :edit, :update, :destroy]  
   # GET /accounts
   # GET /accounts.json

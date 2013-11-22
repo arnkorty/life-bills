@@ -8,12 +8,13 @@ class Ability
     #   if user.admin?
     #     can :manage, :all
     #   else
-    #     can :read, :all
+    # can :read, :all
     #   end
     can [:new, :create], Item
     can [:new, :create], Person
     can [:new, :create], Account
     can [:new, :create], Bill
+    
     can [:read, :update, :destroy], Item do |obj|
       obj.user == user
     end
@@ -25,7 +26,7 @@ class Ability
     end
     can [:read, :update, :destroy], Bill do |obj|
       obj.user == user
-    end
+    end    
 
     #
     # The first argument to `can` is the action you are giving the user 

@@ -44,7 +44,11 @@ module ApplicationHelper
 
   def render_bill_select_tag(records,options={},options_html={})
     # return if bill_type_id.blank?
-    records = records.map{|record|[record.name,record.id]} if records.class.to_s.include?('Mongoid')
+    if records.class.to_s.include?('Mongoid')
+      records = records.map{|record|[record.name,record.id]}
+    elsif records.first.is_a?(String)
+      records = (0...records.size).map{ |i| [records[i], i] }
+    end
     select options.delete(:object), options.delete(:method), records,
     {:include_blank => false}.merge(options), {:class => "chosen btn #{options_html.delete(:class)}",
        :style => "width:100%;"}.merge(options_html)

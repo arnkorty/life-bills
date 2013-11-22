@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
   # before_action :reload_settings
   before_filter :configure_permitted_parameters, if: :devise_controller?  
 
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => exception.message
+  end
+
   def reload_settings
     Settings.reload!
   end
@@ -20,4 +24,6 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_up) << :name
     devise_parameter_sanitizer.for(:sign_up) << :email
   end
+
+
 end

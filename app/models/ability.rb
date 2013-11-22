@@ -10,11 +10,12 @@ class Ability
     #   else
     # can :read, :all
     #   end
+    # can :search, Bill
     can [:new, :create], Item
     can [:new, :create], Person
     can [:new, :create], Account
-    can [:new, :create], Bill
-    
+    can [:new, :create, :search], Bill
+
     can [:read, :update, :destroy], Item do |obj|
       obj.user == user
     end

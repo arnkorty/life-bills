@@ -6,5 +6,5 @@ state_path "#{APP_ROOT}/tmp/pids/puma.state"
 bind 'tcp://0.0.0.0:8977'
 daemonize true
 workers 2
-threads 0,16
+threads 4,16
 preload_app!

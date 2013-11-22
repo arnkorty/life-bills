@@ -43,6 +43,12 @@ class Bill
       return key if value == bill_type_id
     end
   end
+  %w(item person account user).each do |m|
+    define_method "#{m}_name" do 
+      eval(m).try(:name)
+    end
+  end
+
   # embedded_in :item
   # embedded_in :account
   # embedded_in :person

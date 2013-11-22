@@ -28,6 +28,8 @@ set :puma_role, :app
 set :puma_cmd, "#{fetch(:bundle_cmd)}  puma "
 set :pumactl_cmd, "#{fetch(:bundle_cmd)}  pumactl "
 
+set :backup_trigger, "life_bills_backup"
+set :backup_config, "#{current_path}/backup/config.rb"
 
 namespace :puma do 
   desc 'Start puma'
@@ -123,6 +125,11 @@ namespace :deploy do
     end
   end
 
+  task :backup do 
+    on (roles(:db)), in: :sequence do 
+      execute "#{fetch(:rvm_cmd)} backup perform -t #{fetch(:backup_trigger)} --config_file #{fetch(:backup_config)}"
+    end
+  end
   #after :restart, :clear_cache do
   #  on roles(:app), in: :groups, limit: 3, wait: 10 do
   #    # Here we can do anything such as:

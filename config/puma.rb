@@ -1,6 +1,11 @@
 APP_ROOT = '/var/www/life_bills/current'
-pidfile "#{APP_ROOT}/tmp/pids/puma.pid"
-state_path "#{APP_ROOT}/tmp/pids/puma.state"
+PUMA_PIDS_DIR = "#{APP_ROOT}/tmp/pids"
+unless File.exist? PUMA_PIDS_DIR
+  require 'fileutils'
+  FileUtils.mkdir_p PUMA_PIDS_DIR
+end
+pidfile "#{PUMA_PIDS_DIR}/puma.pid"
+state_path "#{PUMA_PIDS_DIR}/puma.state"
 # access_log "#{APP_ROOT}/log/puma.access.log"
 # error_log "#{APP_ROOT}/log/puma.error.log"
 bind 'tcp://0.0.0.0:8977'

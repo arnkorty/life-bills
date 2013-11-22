@@ -5,7 +5,7 @@ upstream life_bills {
   # single worker for timing out).
 
   # for UNIX domain socket setups:
-  server 127.0.0.1:9292 fail_timeout=0;
+  server unix:/tmp/life_bills.socket fail_timeout=0;
 }
 
 # server {
@@ -19,9 +19,9 @@ server {
     listen 80;
 
     # you could put a list of other domain names this application answers
-    server_name life_bills.arnkorty.info 127.0.0.1 localhost;
+    server_name life_bills.arnkorty.info;
 
-    root /home/arnkorty/GitHub/life_bills/public;
+    root /var/www/life_bills/current/public;
     access_log /var/log/nginx/life_bills_access.log;
     rewrite_log on;
 
@@ -52,7 +52,7 @@ server {
     # cache the resource and navigate faster over the website
     # this probably needs some work with Rails 3.1's asset pipe_line
     location ~ ^/(assets|flash)/  {
-      root /home/arnkorty/GitHub/life_bills/public;
+      root /var/www/life_bills/current/public;
       gzip_static on;
       expires max;
       add_header Cache-Control public;
@@ -60,7 +60,7 @@ server {
     }
 
     location ~ ^/(uploads)/  {
-      root /home/arnkorty/GitHub/life_bills/public;
+      root /var/www/life_bills/current/public;
       expires max;
       break;
     }

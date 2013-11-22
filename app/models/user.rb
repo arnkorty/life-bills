@@ -40,7 +40,7 @@ class User
   attr_accessor :login
 
   validates :name, presence: true, uniqueness: true
-  validates :username, presence: true
+  # validates :username, presence: true
   validates :email, presence: true
 
   # has_one :user_info,:dependent => :destroy
@@ -73,6 +73,10 @@ class User
     if username.blank? && email
       username = email.split('@')[0]
     end
+  end
+
+  def username
+    read_attribute(:username) || name
   end
 
 end

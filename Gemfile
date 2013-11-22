@@ -50,6 +50,11 @@ group :development,:test do
 	gem 'better_errors'
 	gem "binding_of_caller"
 	gem 'rack-mini-profiler'
+	gem 'capistrano', '~> 3.0.1'
+	gem 'capistrano-rvm', '~> 0.0.3'
+	# gem 'capistrano-puma', require: false
+	gem 'capistrano-bundler'
+	gem 'capistrano3-puma'
 end
 
 group :test do

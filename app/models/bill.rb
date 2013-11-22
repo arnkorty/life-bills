@@ -7,7 +7,7 @@ class Bill
 
   field :bill_type_id, type: Integer
   field :money, type: Float
-  field :bill_time, type: DateTime
+  field :bill_time, type: Date
   field :remark, type: String
 
   belongs_to :user

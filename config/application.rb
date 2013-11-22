@@ -37,12 +37,12 @@ module LifeBills
     config.action_mailer.raise_delivery_errors = true
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-      address:"fumes4774@gmail.com",
+      address:"XXXX@gmail.com",
       port: 25,
       domain: 'smtp.163.com',
       authentication: :login,
-      user_name: 'fumes4774',
-      password: '477464974'
+      user_name: 'XXXXX',
+      password: 'XXXXXXX'
     }
   end
 end

@@ -127,7 +127,7 @@ namespace :deploy do
 
   task :backup do 
     on (roles(:db)), in: :sequence do 
-      execute "#{fetch(:rvm_cmd)} backup perform -t #{fetch(:backup_trigger)} --config_file #{fetch(:backup_config)}"
+      execute "#{fetch(:rvm_cmd)} backup perform --trigger  #{fetch(:backup_trigger)} --config_file #{fetch(:backup_config)}"
     end
   end
   #after :restart, :clear_cache do

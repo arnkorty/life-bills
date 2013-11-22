@@ -25,8 +25,8 @@ set :puma_bind, "unix://#{fetch(:current_path)}/tmp/sockets/puma.sock"
 set :puma_conf, "#{fetch(:current_path)}config/puma.rb"
 set :puma_role, :app
 # For RVM users, it is advisable to set in your deploy.rb for now :
-set :puma_cmd, "#{fetch(:bundle_cmd)}  puma -e #{fetch(:rails_env)}"
-# set :pumactl_cmd, "#{fetch(:bundle_cmd)} exec  pumactl -e #{fetch(:rails_env)}"
+set :puma_cmd, "#{fetch(:bundle_cmd)}  puma "
+set :pumactl_cmd, "#{fetch(:bundle_cmd)}  pumactl "
 
 
 namespace :puma do 
@@ -34,11 +34,11 @@ namespace :puma do
   task :start do 
     on roles(fetch(:puma_role)) do 
       within current_path do
-        if fetch(:pumactl_cmd)
-          execute "#{fetch(:pumactl_cmd)} -C #{fetch(:puma_conf)}"
-        else
+        #if fetch(:pumactl_cmd)
+        #  execute "#{fetch(:pumactl_cmd)} -C #{fetch(:puma_conf)}"
+        #else
           execute "#{fetch(:puma_cmd)} -C #{fetch(:puma_conf)}"
-        end
+        #end
       end
     end
   end
@@ -78,7 +78,9 @@ namespace :deploy do
     end
   end
 
-  task :start_and_comple_assets do 
+  task :start_at_update do
+    invoke('deploy:sync_sources')
+    invoke('deploy:update_gem')
     invoke('deploy:compile_assets')
     invoke('deploy:start')
   end
@@ -93,8 +95,16 @@ namespace :deploy do
   task :sync_sources do 
     on roles(:app), in: :sequence do 
       within current_path do 
-        # execute :scm, :pull
+        execute "#{fetch(:cd_current_path)} git pull"
       end
+    end
+  end
+
+  task :update do
+    invoke('deploy:sync_sources')
+    invoke('deploy:update_gem')
+    invoke('deploy:compile_assets')
+    on roles(:app), in: :sequence do
     end
   end
 
@@ -113,18 +123,19 @@ namespace :deploy do
     end
   end
 
-  after :restart, :clear_cache do
-    on roles(:app), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      within current_path do
-        execute " RAILS_ENV=production #{fetch(:bundle_cmd)} rake cache:clear"      
-      end
-    end
-  end
+  #after :restart, :clear_cache do
+  #  on roles(:app), in: :groups, limit: 3, wait: 10 do
+  #    # Here we can do anything such as:
+  #    within current_path do
+  #      execute " RAILS_ENV=production #{fetch(:bundle_cmd)} rake cache:clear"
+  #    end
+  #  end
+  #end
 
-  # after :finished, 'puma:restart'
-  # after :finishing, 'deploy:cleanup'
-  # after "deploy:start",          "puma:start"
+  after "deploy:restart", 'puma:restart'
+  after "deploy:update",  'puma:restart'
+  after :finishing,       'deploy:cleanup'
+  after "deploy:start",   "puma:start"
   # after "deploy:stop",           "puma:stop"
   # after "deploy:restart",        "puma:restart"
   # before 'deploy:start', 'deploy:update_gem'

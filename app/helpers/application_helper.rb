@@ -44,7 +44,7 @@ module ApplicationHelper
 
   def render_bill_select_tag(records,options={},options_html={})
     # return if bill_type_id.blank?
-    if records.class.to_s.include?('Mongoid')
+    if records.class.to_s.starts_with?('Mongoid')
       records = records.map{|record|[record.name,record.id]}
     elsif records.first.is_a?(String)
       records = (0...records.size).map{ |i| [records[i], i] }

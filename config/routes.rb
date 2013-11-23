@@ -27,6 +27,10 @@ LifeBills::Application.routes.draw do
     resources :items
   end
 
+  scope '/weixin' do
+    weixin_rails_for_signature  'weixin#signature',as: 'weixin_signature'
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

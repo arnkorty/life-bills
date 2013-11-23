@@ -1,13 +1,13 @@
 GIT
   remote: git://github.com/arnkorty/weixin_rails.git
-  revision: 35f1a7dd6254782dba2fca6a4821c1800c52cc2a
+  revision: 14194a6b122191b8fda93f0f0e9c1cad087c391f
   specs:
     weixin_rails (0.0.1)
       rails (~> 4.0.0)
 
 GIT
   remote: git://github.com/mongoid/mongoid.git
-  revision: 8187a8073dfc6b804c66b3dc9f95b610b2232ce8
+  revision: d35eaab4460540d3016baac9b40e5ebb0ed18b44
   specs:
     mongoid (4.0.0)
       activemodel (~> 4.0.0)
@@ -97,7 +97,7 @@ GEM
       debugger-linecache (~> 1.2.0)
       debugger-ruby_core_source (~> 1.2.3)
     debugger-linecache (1.2.0)
-    debugger-ruby_core_source (1.2.3)
+    debugger-ruby_core_source (1.2.4)
     devise (3.2.1)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -126,7 +126,7 @@ GEM
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.8.1)
-    kaminari (0.14.1)
+    kaminari (0.15.0)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
     launchy (2.4.0)
@@ -213,7 +213,7 @@ GEM
       railties (>= 3.0, < 4.1)
       slim (~> 2.0)
     slop (3.4.7)
-    sprockets (2.10.0)
+    sprockets (2.10.1)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
@@ -222,8 +222,8 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
-    sshkit (1.1.0)
-      net-scp
+    sshkit (1.2.0)
+      net-scp (>= 1.1.2)
       net-ssh
       term-ansicolor
     temple (0.6.7)

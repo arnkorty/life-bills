@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/arnkorty/weixin_rails.git
+  revision: 35f1a7dd6254782dba2fca6a4821c1800c52cc2a
+  specs:
+    weixin_rails (0.0.1)
+      rails (~> 4.0.0)
+
+GIT
   remote: git://github.com/mongoid/mongoid.git
   revision: 8187a8073dfc6b804c66b3dc9f95b610b2232ce8
   specs:
@@ -277,3 +284,4 @@ DEPENDENCIES
   slim-rails
   turbolinks
   uglifier (>= 1.3.0)
+  weixin_rails!

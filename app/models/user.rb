@@ -44,10 +44,17 @@ class User
   validates :email, presence: true
 
   # has_one :user_info,:dependent => :destroy
-  has_many :items,    :dependent => :destroy
-  has_many :people,   :dependent => :destroy
-  has_many :accounts, :dependent => :destroy
-  has_many :bills,    :dependent => :destroy
+  # has_many :items,    :dependent => :destroy
+  # has_many :people,   :dependent => :destroy
+  # has_many :accounts, :dependent => :destroy
+  # has_many :bills,    :dependent => :destroy
+  with_options :dependent => :destroy do |assoc|
+    assoc.has_many :items
+    assoc.has_many :people
+    assoc.has_many :accounts 
+    assoc.has_many :bills
+
+  end
 
   after_create :set_init_info
   before_create :set_default_name

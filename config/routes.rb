@@ -29,6 +29,8 @@ LifeBills::Application.routes.draw do
 
   scope '/weixin' do
     weixin_rails_for_signature  'weixin#signature',as: 'weixin_signature'
+    weixin_rails_for_event 'weixin#event', event: 'subscribe', as: 'weixin_subscribe'
+    weixin_rails_for_event 'weixin#image', event: 'subscrifsdbe', as: 'weixin_susfbscribe'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

@@ -1,4 +1,8 @@
-source 'http://ruby.taobao.org'
+if ENV['SSH_CLIENT'] || ENV['TRAVIS']
+	source 'https://rubygems.org'
+else
+	source 'http://ruby.taobao.org'
+end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
@@ -51,10 +55,7 @@ group :development,:test do
 	gem "binding_of_caller"
 	gem 'rack-mini-profiler'
 	gem 'capistrano', '~> 3.0.1'
-	gem 'capistrano-rvm', '~> 0.0.3'
-	# gem 'capistrano-puma', require: false
-	# gem 'capistrano-bundler'
-	# gem 'capistrano3-puma'
+	gem 'capistrano-rvm', '~> 0.0.3'	
 end
 
 group :test do
@@ -77,4 +78,5 @@ end
 
 # Use debugger
 gem 'debugger', group: [:development, :test]
+# Use puma as web server
 gem 'puma'

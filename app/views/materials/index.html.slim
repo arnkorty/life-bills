@@ -1,0 +1,27 @@
+h1 Listing materials
+
+table
+  tr
+    th Name
+    th Content
+    th Rule
+    th Key work
+    th Delete flag
+    th
+    th
+    th
+
+  - @materials.each do |material|
+    tr
+      td = material.name
+      td = material.content
+      td = material.rule
+      td = material.key_word
+      td = material.delete_flag
+      td = link_to 'Show', material
+      td = link_to 'Edit', edit_material_path(material)
+      td = link_to 'Destroy', material, :confirm => 'Are you sure?', :method => :delete
+
+br
+
+= link_to 'New Material', new_material_path

@@ -11,6 +11,10 @@ class Ability
     # can :read, :all
     #   end
     # can :search, Bill
+    if Settings.admin_emails.include?(user.email)
+      can :manage, WeixinUser
+      can :manage, Material
+    end
     can [:new, :create], Item
     can [:new, :create], Person
     can [:new, :create], Account

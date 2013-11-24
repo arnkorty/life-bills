@@ -1,0 +1,10 @@
+= simple_form_for(@weixin_user) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.association :user
+    = f.input :name
+    = f.input :delete_flag
+
+  .form-actions
+    = f.button :submit

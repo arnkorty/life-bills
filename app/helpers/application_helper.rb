@@ -54,4 +54,19 @@ module ApplicationHelper
        :style => "width:100%;"}.merge(options_html)
   end
 
+  def render_admin_nav
+    str = ''
+    if can? :manage, WeixinUser
+      str << content_tag('li') do 
+        link_to 'WeixinUser', weixin_users_path
+      end
+    end
+    if can? :manage, Material
+      str << content_tag('li') do 
+        link_to 'Material', materials_path
+      end
+    end
+    raw str
+  end
+
 end

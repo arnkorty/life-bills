@@ -2,6 +2,6 @@
     <ToUserName><![CDATA[<%= @weixin_params.from_user %>]]></ToUserName>
     <FromUserName><![CDATA[<%= @weixin_params.to_user %>]]></FromUserName>
     <CreateTime><%= Time.now.to_i %></CreateTime>
-    <MsgType><![CDATA[<%= @weixin_params.type%>]]></MsgType>
+    <MsgType><![CDATA[<%= @weixin_type || @weixin_params.type%>]]></MsgType>
     <%= yield %>
 </xml>

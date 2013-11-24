@@ -1,5 +1,9 @@
 LifeBills::Application.routes.draw do
-  
+
+  resources :weixin_users
+
+  resources :materials
+
   resources :bills do 
     collection do 
       post 'search'
@@ -27,12 +31,10 @@ LifeBills::Application.routes.draw do
     resources :items
   end
 
-  scope '/weixin' do
-    weixin_rails_for_signature  'weixin#signature',as: 'weixin_signature'
-    weixin_rails_for_event 'weixin#event', event: 'subscribe', as: 'weixin_subscribe'
-    weixin_rails_for_event 'weixin#image', event: 'subscrifsdbe', as: 'weixin_susfbscribe'
+  namespace :weixin do 
+    weixin_rails_for_signature 'common#signature', as: 'weixin_signature', via: :get
+    weixin_rails_for_event 'events#subscribe', event: 'subscribe', as: 'weixin_event_subscribe'
   end
-
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

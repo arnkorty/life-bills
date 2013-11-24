@@ -1,0 +1,23 @@
+h1 Listing weixin_users
+
+table
+  tr
+    th User
+    th Name
+    th Delete flag
+    th
+    th
+    th
+
+  - @weixin_users.each do |weixin_user|
+    tr
+      td = weixin_user.user
+      td = weixin_user.name
+      td = weixin_user.delete_flag
+      td = link_to 'Show', weixin_user
+      td = link_to 'Edit', edit_weixin_user_path(weixin_user)
+      td = link_to 'Destroy', weixin_user, :confirm => 'Are you sure?', :method => :delete
+
+br
+
+= link_to 'New Weixin user', new_weixin_user_path

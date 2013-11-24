@@ -1,0 +1,15 @@
+p#notice = notice
+
+p
+  strong User:
+  = @weixin_user.user
+p
+  strong Name:
+  = @weixin_user.name
+p
+  strong Delete flag:
+  = @weixin_user.delete_flag
+
+= link_to 'Edit', edit_weixin_user_path(@weixin_user)
+'|
+= link_to 'Back', weixin_users_path

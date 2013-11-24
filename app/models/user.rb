@@ -1,5 +1,5 @@
 class User
-  include Mongoid::Document
+  include Mongoid::Document  
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -53,6 +53,7 @@ class User
     assoc.has_many :people
     assoc.has_many :accounts 
     assoc.has_many :bills
+    assoc.has_many :weixin_user
 
   end
 

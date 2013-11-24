@@ -1,0 +1,12 @@
+= simple_form_for(@material) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :name
+    = f.input :content
+    = f.input :rule
+    = f.input :key_word
+    = f.input :delete_flag
+
+  .form-actions
+    = f.button :submit

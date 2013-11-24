@@ -1,0 +1,21 @@
+p#notice = notice
+
+p
+  strong Name:
+  = @material.name
+p
+  strong Content:
+  = @material.content
+p
+  strong Rule:
+  = @material.rule
+p
+  strong Key word:
+  = @material.key_word
+p
+  strong Delete flag:
+  = @material.delete_flag
+
+= link_to 'Edit', edit_material_path(@material)
+'|
+= link_to 'Back', materials_path

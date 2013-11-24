@@ -19,9 +19,7 @@ Model.new(:life_bills_backup, 'backup life_bills data') do
   # MongoDB [Database]
   #
   database MongoDB do |db|
-    db.name               = "life_bills_development"
-    db.username           = 'xxxxx'
-    db.port               = 'xxxxx'
+    db.name               = "life_bills_production"
     db.host               = "localhost"
     db.port               = 27017
     db.ipv6               = false
@@ -100,13 +98,13 @@ Model.new(:life_bills_backup, 'backup life_bills data') do
     mail.on_warning           = true
     mail.on_failure           = true
 
-    mail.from                 = "XXXX@163.com"
-    mail.to                   = "XXXXX@163.com"
+    mail.from                 = "fumes4774@163.com"
+    mail.to                   = "arnkorty.fu@gmail.com"
     mail.address              = "smtp.163.com"
     mail.port                 =  25
     mail.domain               = "163.com"
-    mail.user_name            = "XXXXX"
-    mail.password             = "XXXXX"
+    mail.user_name            = "fumes4774"
+    mail.password             = "477464974"
     mail.authentication       = "plain"
     mail.encryption           = :starttls
   end

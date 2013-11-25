@@ -37,7 +37,7 @@ class Weixin::CommonController < Weixin::ApplicationController
       current_wxuser.next_actions.desc.each do |na|
         @content << "#{na.key_word} #{na.remark}\n"
       end
-      render inline: @content
+    	@content
     end
   end
 end

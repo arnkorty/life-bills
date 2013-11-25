@@ -12,7 +12,7 @@ class Weixin::ApplicationController < ActionController::Base
 
   private
   def params_valid?
-    array = ['life_bills' || Settings.weixin_token, params[:timestamp]||'0', params[:nonce]||'0'].sort    
+    array = [Settings.weixin_token, params[:timestamp]||'0', params[:nonce]||'0'].sort    
     params[:signature] == Digest::SHA1.hexdigest(array.join)    
   end
 

@@ -11,6 +11,6 @@ html lang='en'
     = javascript_include_tag "//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js"
   = csrf_meta_tags
   body
-		.container
-			.row
-				= content_for(:content) ? yield(:content) : yield
+    .container
+      .row
+        = content_for(:content) ? yield(:content) : yield

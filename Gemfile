@@ -43,7 +43,7 @@ gem 'settingslogic'
 # gem 'haml-rails'
 gem 'slim-rails'
 
-gem 'weixin_rails', github:"arnkorty/weixin_rails"
+gem 'weixin_rails', github:"arnkorty/weixin_rails", branch: :master
 gem 'actionpack-xml_parser'
 
 

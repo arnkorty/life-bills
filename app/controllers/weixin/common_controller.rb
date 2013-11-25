@@ -12,4 +12,32 @@ class Weixin::CommonController < Weixin::ApplicationController
       render :text => "Forbidden", :status => 403 
     end
   end
+
+  def missing
+    if current_wxuser.user
+      @content     = Material.missing_content
+      @weixin_type = 'text' 
+    else      
+      next_action = current_wxuser.next_actions.where(key_word: weixin_params.content).first      
+      if next_action
+        current_wxuser.signature = params[:signature]
+        current_wxuser.save
+        #@weixin_type    = next_action.weixin_type
+        @content  = next_action.remark
+        @content << next_action.content
+        if next_action.weixin_type == 'link'
+          @content.sub!(/\?$/,'')
+          @content << "?signature=#{params[:signature]}&weixin_id=#{weixin_params.from_user}"          
+        end
+        return
+      end
+      current_wxuser.sigin_up_and_bind
+      @weixin_type = 'text'
+      @content = ''      
+      current_wxuser.next_actions.desc.each do |na|
+        @content << "#{na.key_word} #{na.remark}\n"
+      end
+      render inline: @content
+    end
+  end
 end

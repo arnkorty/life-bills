@@ -15,7 +15,8 @@ defaults: &defaults
     income: 1    
     lend: 2
     borrow: 3
-  weixin_token: 
+  weixin_token:
+  base_url: "http://life-bills.arnkorty.info"
   bill_types_zh:
     - 支出
     - 收入

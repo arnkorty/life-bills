@@ -27,5 +27,10 @@ class Weixin::ApplicationController < ActionController::Base
 
   def set_xml_format
     request.formats = [:xml]
-  end
+	end 
+	
+	def current_wxuser    
+		@current_wuxsser ||= WeixinUser.find_or_create_by(weixin_id: weixin_params.from_user)    
+	end
+
 end

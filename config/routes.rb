@@ -1,5 +1,6 @@
 LifeBills::Application.routes.draw do
 
+  get "user/signup_and_bind"
   resources :weixin_users
 
   resources :materials
@@ -10,6 +11,11 @@ LifeBills::Application.routes.draw do
     end
   end
 
+	namespace :weixin_web do 
+		post 'user/bind',   as: 'bind'
+    get 'user/signup', as: 'signup'
+    get 'user/signin', as: 'signin'
+	end
 
   # resources :people
 
@@ -17,11 +23,13 @@ LifeBills::Application.routes.draw do
 
   # resources :items
 
+  # root to: 'devise/sessions#new'
   devise_for :users do
-    root to: 'home#index'
+    root to: 'home#index',as: 'auth_root'
   end
 
-  
+  # get 'home/page'
+  # root to: '/users'
   root to: 'home#index'
 
   scope '/settings' do
@@ -29,11 +37,13 @@ LifeBills::Application.routes.draw do
     resources :accounts
 
     resources :items
-  end
+	end
 
   namespace :weixin do 
     weixin_rails_for_signature 'common#signature', as: 'weixin_signature', via: :get
     weixin_rails_for_event 'events#subscribe', event: 'subscribe', as: 'weixin_event_subscribe'
+	
+		weixin_rails_for_text 'common#missing', as: 'weixin_missing'
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

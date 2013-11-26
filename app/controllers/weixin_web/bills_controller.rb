@@ -17,12 +17,12 @@ class WeixinWeb::BillsController < WeixinWeb::ApplicationController
   #end
 
   def get_items
-    render json: @current_user.items.where(flag: params[:bill_type_id])
+    render json: current_user.items.where(flag: params[:bill_type_id])
   end
   # # GET /weixin_web/bills/new
-  # def new
-  #   @weixin_web_bill = WeixinWeb::Bill.new
-  # end
+	 def new
+#     @weixin_web_bill = WeixinWeb::Bill.new
+	 end
 
   # # GET /weixin_web/bills/1/edit
   # def edit

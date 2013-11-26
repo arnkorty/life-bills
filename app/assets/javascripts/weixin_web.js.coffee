@@ -6,7 +6,7 @@ jQuery(document).ready ->
     if this.value == 0 
       item.html("")
     else
-      jQuery.get '/weixin_web/bills/get_items', {bill_type_id: this.value, weixin_id: d.weixinId, signation: d.signation}, 'json', (data) ->
+      jQuery.get '/weixin_web/bills/get_items', {bill_type_id: this.value, weixin_id: d.weixinId, signature: d.signature}, 'json', (data) ->
         options = "<option value=''></option>"
         for d in data
           options += "<option value='" + d.id + "'>" + d.name + "</option>"

@@ -13,4 +13,6 @@ html lang='en'
   body
     .container
       .row
+        = render '/layouts/messages'    
         = content_for(:content) ? yield(:content) : yield
+    = javascript_include_tag 'weixin_web'

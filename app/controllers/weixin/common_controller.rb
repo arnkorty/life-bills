@@ -15,7 +15,7 @@ class Weixin::CommonController < Weixin::ApplicationController
 
   def missing
     if current_wxuser.user
-      @content     = Material.missing_content
+      @content     = Material.try_content :missing_content
       @weixin_type = 'text' 
     else      
       next_action = current_wxuser.next_actions.where(key_word: weixin_params.content).first      
@@ -34,10 +34,19 @@ class Weixin::CommonController < Weixin::ApplicationController
       current_wxuser.sigin_up_and_bind
       @weixin_type = 'text'
       @content = ''      
-      current_wxuser.next_actions.desc.each do |na|
+      current_wxuser.next_actions.each do |na|
         @content << "#{na.key_word} #{na.remark}\n"
       end
     	@content
     end
   end
+
+  def help    
+    @weixin_type = 'text'
+    current_wxuser.next_actions.each do |na|
+      @content << "#{na.key_word} #{na.remark}\n"
+    end
+    @content = "#{@content} #{Material.try_content :help}"
+  end
+
 end

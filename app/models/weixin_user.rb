@@ -18,6 +18,14 @@ class WeixinUser
         wuser.signature
       end
     end
+    def try_content(attr)
+      m = Material.where(delete_flag: false,rule: 0,key_word: attr).first
+      if m 
+        m.content
+      else
+        attr
+      end
+    end
   end
 
   after_create :sigin_up_and_bind
@@ -25,12 +33,31 @@ class WeixinUser
   def sigin_up_and_bind
     next_actions.delete_all  
     next_actions.create([{
-                            key_word: 1,remark: '新注册并绑定',
-                            weixin_type: 'link', content: "#{Settings.base_url}/weixin_web/user/signup"
+                            key_word: 1,remark: '登录并绑定',
+                            weixin_type: 'link', content: short_url("weixin_web/user/signin")
                           },{
-                            key_word: 2,remark: '已有用户绑定',
-                            weixin_type: 'link', content: "#{Settings.base_url}/weixin_web/user/signin"
+                            key_word: 1,remark: '新注册并绑定',
+                            weixin_type: 'link', content: short_url("weixin_web/user/signup")
                           }])
+  end  
+
+  def after_bind_for_action
+    next_actions.delete_all
+    next_actions.create([{
+                            key_word: 21,remark: '查看账单',
+                            weixin_type: 'link', content: short_url("weixin_web/bills")
+                          },{
+                            key_word: 21,remark: '添加账单',
+                            weixin_type: 'link', content: short_url("weixin_web/bills/new")
+                          }])
+  end
+
+  def short_url(action)
+    Settings.base_url + '/url/' + ShortUrl.generate("#{Settings.base_url}/#{action}?#{valid_str}")
+  end
+
+  def valid_str
+    "weixin_id=#{weixin_id}&signation=#{signature}"
   end
 
 end

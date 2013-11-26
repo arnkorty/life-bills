@@ -1,5 +1,7 @@
+# encoding: utf-8
 LifeBills::Application.routes.draw do
 
+  get "url/:url" => 'url#index'
   get "user/signup_and_bind"
   resources :weixin_users
 
@@ -15,6 +17,9 @@ LifeBills::Application.routes.draw do
 		post 'user/bind',   as: 'bind'
     get 'user/signup', as: 'signup'
     get 'user/signin', as: 'signin'
+    resources :bills do 
+      get 'get_items', on: :collection
+    end
 	end
 
   # resources :people
@@ -42,8 +47,9 @@ LifeBills::Application.routes.draw do
   namespace :weixin do 
     weixin_rails_for_signature 'common#signature', as: 'weixin_signature', via: :get
     weixin_rails_for_event 'events#subscribe', event: 'subscribe', as: 'weixin_event_subscribe'
-	
-		weixin_rails_for_text 'common#missing', as: 'weixin_missing'
+    weixin_rails_for_event 'events#unsubscribe', event: 'unsubscribe', as: 'weixin_event_unsubscribe'
+	  weixin_rails_for_text 'common#help',content: /(^help$)|(^帮助$)|(^\?$)/, as: "weixin_help"
+		weixin_rails_for_text 'common#missing', as: 'weixin_missing'     
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

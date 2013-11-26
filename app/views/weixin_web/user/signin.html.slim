@@ -2,8 +2,7 @@
   fieldset 
     legend 用户绑定
     = render '/layouts/messages'    
-    input type='hidden' value=params[:signature] name='signature'
-    input type='hidden' value=params[:weixin_id] name='weixin_id'
+    = render 'weixin_web/share/weixin_token'
     .form-group
       = f.text_field :login, class: 'form-control'  , placeholder: '用户名或邮件地址'
     .form-group

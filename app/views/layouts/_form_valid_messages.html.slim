@@ -1,0 +1,8 @@
+- if obj.errors.any?
+  alert.alert-danger
+    a.close data-dismiss='alert' &#215
+    = content_tag :div, :id => "flash_danger" do
+      = "#{pluralize(obj.errors.count, "error")} prohibited this person from being saved:"
+      ul
+        - obj.errors.full_messages.each do |message|
+          li message 

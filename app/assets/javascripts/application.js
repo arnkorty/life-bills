@@ -29,9 +29,4 @@
 billTypes = []
 jQuery(document).ready(function(){
   jQuery('[data-behaviour~=datepicker]').datepicker({language:'zh-CN',format:'yyyy-mm-dd'});
-  // $('#new_person').bind('ajax:success',function(event,data){
-  // 	// alert("sdfsdf");
-  // 	console.log(data);
-  // })
-  
 })

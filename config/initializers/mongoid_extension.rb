@@ -1,0 +1,1 @@
+Mongoid::Criteria.send :include, MongoidExtensions

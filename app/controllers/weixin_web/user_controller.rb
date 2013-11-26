@@ -14,16 +14,18 @@ class WeixinWeb::UserController < WeixinWeb::ApplicationController
     if params[:flag] == 'signin'
       user = User.find_first_by_auth_conditions(params[:user])
       if user.valid_password?(params[:user][:password])
-        @current_wuser.user = user
-        if @current_wuser.save
+        current_wuser.user = user
+        if current_wuser.save 
+					current_wuser.after_bind_for_action
           return render text: '绑定成功！', layout: false, status: 200
         end
       end
     else
       user = User.new(user_params)
       if user.save!
-        @current_wuser.user = user
-        if @current_wuser.save
+        current_wuser.user = user
+        if current_wuser.save 
+					current_wuser.after_bind_for_action
           return render text: '绑定成功！', layout: false, status: 200
         end
       end

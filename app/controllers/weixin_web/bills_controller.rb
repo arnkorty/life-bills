@@ -4,10 +4,9 @@ class WeixinWeb::BillsController < WeixinWeb::ApplicationController
   # # GET /weixin_web/bills.json 
 	
 	before_action :request_user?
-  before_action :test_valid
 
   def index
-    @bills = @current_user.bills.page(params[:page])
+    @bills = current_user.bills.page(params[:page])
   end
   # # GET /weixin_web/bills/1
   # # GET /weixin_web/bills/1.json

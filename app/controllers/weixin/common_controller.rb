@@ -14,24 +14,32 @@ class Weixin::CommonController < Weixin::ApplicationController
   end
 
   def missing
-    if current_wxuser.user
-      @content     = Material.try_content :missing_content
+    if current_wxuser.user && !current_wxuser.next_actions
       @weixin_type = 'text' 
+ 
+#       if current_wxuser.next_actions 
+
+#       else
+        @content  = Material.try_content :missing_content
+#       end
     else      
-      next_action = current_wxuser.next_actions.where(key_word: weixin_params.content).first      
+      
+#         current_wxuser.signature = params[:signature]
+#       
+#         current_wxuser.save
+# 
+#       current_wxuser.sigin_up_and_bind
+			next_action = current_wxuser.next_actions.where(key_word: weixin_params.content).first      
       if next_action
-        current_wxuser.signature = params[:signature]
-        current_wxuser.save
         #@weixin_type    = next_action.weixin_type
         @content  = next_action.remark
         @content << next_action.content
-        if next_action.weixin_type == 'link'
-          @content.sub!(/\?$/,'')
-          @content << "?signature=#{params[:signature]}&weixin_id=#{weixin_params.from_user}"          
-        end
+#         if next_action.weixin_type == 'link'
+#           @content.sub!(/\?$/,'')
+#           @content << "?signature=#{params[:signature]}&weixin_id=#{weixin_params.from_user}"          
+#         end
         return
       end
-      current_wxuser.sigin_up_and_bind
       @weixin_type = 'text'
       @content = ''      
       current_wxuser.next_actions.each do |na|

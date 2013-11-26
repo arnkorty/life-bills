@@ -36,7 +36,7 @@ class WeixinUser
                             key_word: 1,remark: '登录并绑定',
                             weixin_type: 'link', content: short_url("weixin_web/user/signin")
                           },{
-                            key_word: 1,remark: '新注册并绑定',
+                            key_word: 2,remark: '新注册并绑定',
                             weixin_type: 'link', content: short_url("weixin_web/user/signup")
                           }])
   end  
@@ -47,7 +47,7 @@ class WeixinUser
                             key_word: 21,remark: '查看账单',
                             weixin_type: 'link', content: short_url("weixin_web/bills")
                           },{
-                            key_word: 21,remark: '添加账单',
+                            key_word: 22,remark: '添加账单',
                             weixin_type: 'link', content: short_url("weixin_web/bills/new")
                           }])
   end
@@ -57,7 +57,7 @@ class WeixinUser
   end
 
   def valid_str
-    "weixin_id=#{weixin_id}&signation=#{signature}"
+    "weixin_id=#{weixin_id}&signature=#{signature}"
   end
 
 end

@@ -1,4 +1,5 @@
-class UrlController < ApplicationController
+class UrlController < ApplicationController 
+	skip_before_filter :authenticate_user!
   def index
     url = ShortUrl.get_url(params[:url])
     if url

@@ -19,7 +19,7 @@
               = f.text_field :name,class:'form-control'
               = f.hidden_field :user_id,value: current_user.id
         .modal-footer
-          .actions = f.submit 'Save',class:'btn btn-info'
+          .actions = f.submit '保存',class:'btn btn-info'
 
 .modal.fade#account-form tabindex='-1' role='dialog'  aria-labelledby='myModalLabel' aria-hidden='true'
   .modal-dialog
@@ -42,7 +42,7 @@
               = f.text_field :name,class:'form-control'
               = f.hidden_field :user_id,value: current_user.id
         .modal-footer
-          .actions = f.submit 'Save'        ,class:'btn btn-info'
+          .actions = f.submit '保存'        ,class:'btn btn-info'
 
 = render_items_form
 

@@ -3,7 +3,7 @@
 
   .form-inputs
     = f.input :name
-    = f.input :content
+    = f.input :content, as: :text,input_html:{class:'form-control'}
     = f.input :rule
     = f.input :key_word
     = f.input :delete_flag

@@ -13,6 +13,7 @@ class WeixinWeb::ApplicationController < ActionController::Base
   def current_user
     if current_wuser
       @current_user ||= current_wuser.user
+      #@current_user ||= User.first
     end
   end
   def valid_request?

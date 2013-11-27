@@ -17,11 +17,14 @@ class Bill
   belongs_to :person
 
   # validation
-  validates_presence_of     :item_id
-  validates_presence_of     :bill_time
-  validates_presence_of     :user_id
-  validates_presence_of     :person_id
-  validates_presence_of     :account_id
+  with_options presence: true do |asso|
+    asso.validates :item_id
+    asso.validates :bill_time
+    asso.validates :user_id
+    asso.validates :person_id
+    asso.validates :account_id
+    asso.validates :bill_type_id
+  end  
   validates_numericality_of :money
 
   scope :type_of,-> (flag) { where(bill_type_id: flag) }

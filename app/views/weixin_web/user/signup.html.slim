@@ -1,7 +1,7 @@
-= form_for(User.new, url: weixin_web_bind_path(flag: 'signup'),role: 'form') do |f|
+= form_for(@user, url: weixin_web_bind_path(flag: 'signup'),role: 'form') do |f|
   fieldset 
     legend 新注册并绑定
-    = render 'weixin_web/share/weixin_token'
+    = render 'weixin_web/share/weixin_token'    
     .form-group
       = f.text_field :email, class: 'form-control'  , placeholder: '邮件地址'
     .form-group

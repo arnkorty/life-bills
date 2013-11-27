@@ -5,4 +5,4 @@
       = "#{pluralize(obj.errors.count, "error")} prohibited this person from being saved:"
       ul
         - obj.errors.full_messages.each do |message|
-          li message 
+          li = message 

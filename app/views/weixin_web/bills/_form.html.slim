@@ -1,9 +1,11 @@
-= simple_form_for Bill.new, html:{role: 'form'} do |f|
+= simple_form_for @bill,url: weixin_web_bills_path, html:{role: 'form'} do |f|
   fieldset
     lagend 
       = render_action_name + ' 账单'
+    = render '/weixin_web/share/weixin_token'
+    = render '/layouts/form_valid_messages', obj: @bill
     .form-group
-      label 账单类型
+      label 账单类型      
       = f.select :bill_type_id, Settings.bill_types.values.map{|v|[Settings.bill_types_zh[v],v]}, {include_blank: true}, {class: 'form-control', id: 'weixin_web_bill_type_select', data: {item_target: '#bill_item_id',weixin_id: params[:weixin_id],signature: params[:signature]}}
       label 分类
       = f.select :item_id, @current_user.items.all.map{|i|[i.name, i.id]}, {include_blank: true}, {class: 'form-control'}

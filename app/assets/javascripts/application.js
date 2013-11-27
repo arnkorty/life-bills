@@ -27,6 +27,7 @@
 //   return self;
 // }; 
 billTypes = []
-jQuery(document).ready(function(){
-  jQuery('[data-behaviour~=datepicker]').datepicker({language:'zh-CN',format:'yyyy-mm-dd'});
-})
+//jQuery(document).ready(function(){
+//  jQuery('[data-behaviour~=datepicker]').datepicker({language:'zh-CN',format:'yyyy-mm-dd'});
+//  // jQuery('#edit-bill-modal').delegate('[data-behaviour~=datepicker]').datepicker({language:'zh-CN',format:'yyyy-mm-dd'});
+//})

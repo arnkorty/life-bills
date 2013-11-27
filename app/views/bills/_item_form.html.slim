@@ -15,4 +15,4 @@
               = f.hidden_field :user_id,value: current_user.id
               = f.hidden_field :flag,value: Settings.bill_types.send(name_en)
         .modal-footer
-          .actions = f.submit 'Save',class:'btn btn-info'
+          .actions = f.submit '保存',class:'btn btn-info'

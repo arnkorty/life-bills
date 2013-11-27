@@ -1,3 +1,4 @@
+h4 = "共#{@bills.size}条数据,账单金额#{@total_money}"
 table.table.table-striped.table-hover.table-bordered
   tr
     th      
@@ -20,10 +21,10 @@ table.table.table-striped.table-hover.table-bordered
       td field='person.name' = master_name(bill.person)
       td field='remark' = truncate(bill.remark, length: 10)
       td
-        a.ajax-remove-tr href= weixin_web_bill_path(bill) data-method='delete' data-remote=true data-remove-id=bill.id data-type='json' data-confirm='确定删除？'
+        a.ajax-remove-tr href= weixin_web_bill_path(bill,weixin_id: params[:weixin_id], signature: params[:signature]) data-method='delete' data-remote=true data-remove-id=bill.id data-type='json' data-confirm='确定删除？'
           i.glyphicon.glyphicon-remove
         | &nbsp;&nbsp;&nbsp;&nbsp;
-        a.ajax-edit-tr href=edit_weixin_web_bill_path(bill)   data-edit-id=bill.id data-remote=true
+        a.ajax-edit-tr href=edit_weixin_web_bill_path(bill,weixin_id: params[:weixin_id], signature: params[:signature])   data-edit-id=bill.id 
           i.glyphicon.glyphicon-edit
 .row
   = paginate @bills

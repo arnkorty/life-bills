@@ -45,8 +45,15 @@ class BillsController < ApplicationController
           end
         end
       end
-    end    
-    @bills = @bills.page(params[:page])
+    end
+    @bills_infos = {}
+    @bills_infos[:money]  = @bills.sum(:money)
+    @bills_infos[:size]   = @bills.size
+    @bills_infos[:income] = @bills.where(bill_type_id: Settings.bill_types.income).sum(:money)
+    @bills_infos[:outlay] = @bills.where(bill_type_id: Settings.bill_types.outlay).sum(:money)
+    @bills_infos[:lend]   = @bills.where(bill_type_id: Settings.bill_types.lend).sum(:money)
+    @bills_infos[:borrow] = @bills.where(bill_type_id: Settings.bill_types.borrow).sum(:money)
+    @bills   = @bills.desc(:created_at).page(params[:page])
     @bill    = current_user.bills.new
     @person  = Person.new
     @account = Account.new

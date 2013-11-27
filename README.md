@@ -1,18 +1,20 @@
 # Life Bills 
 生活账单管理系统，管理你的生活
 ## 官网
-life-bills.arnkorty.info
+http://life-bills.arnkorty.info
 
 微信公众帐号： arnkorty
+
 ## 系统要求
 * Ruby 2.0.0 (or 1.9.3)
 * MongoDB
 * Redis
-## 微信端配置
-**配置**
-微信url： http://你的域名/weixin
 
-微信token：
+## 微信端配置
+
+**微信url：** http://你的域名/weixin
+
+**微信token：**
 ```yaml
 # config/application.yml
 weixin_token: 你的token

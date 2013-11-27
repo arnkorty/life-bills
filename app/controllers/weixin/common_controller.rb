@@ -50,7 +50,8 @@ class Weixin::CommonController < Weixin::ApplicationController
   end
 
   def help    
-    @weixin_type = 'text'
+    @weixin_type = 'text' 
+		@content     = ''
     current_wxuser.next_actions.each do |na|
       @content << "#{na.key_word} #{na.remark}\n"
     end

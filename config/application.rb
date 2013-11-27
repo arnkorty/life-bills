@@ -34,16 +34,16 @@ module LifeBills
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
-    config.action_mailer.default_url_options = { :host => "localhost:9292"}
+    config.action_mailer.default_url_options = { :host => "life-bills.arnkorty.info"}
     config.action_mailer.raise_delivery_errors = true
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.smtp_settings = {
-      address:"XXXX@gmail.com",
+      address:"smtp.163.com",
       port: 25,
-      domain: 'smtp.163.com',
-      authentication: :login,
-      user_name: 'XXXXX',
-      password: 'XXXXXXX'
+      domain: '163.com',
+      authentication: :plain,
+      user_name: 'fumes4774',
+      password: '477464974'
     }
   end
 end

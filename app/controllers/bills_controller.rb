@@ -28,7 +28,7 @@ class BillsController < ApplicationController
             end
           end
         else
-          session[:search_bills].delete(params[:search][:clean].to_sym)
+          session[:search_bills].delete(params[:search][:clean].to_sym) if params[:search].is_a? Hash
         end
       end
       session[:search_bills].each do |key,value|

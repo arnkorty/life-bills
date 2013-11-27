@@ -40,4 +40,15 @@ module BillsHelper
     html    
   end
 
+  def render_bill_order(tag, obj)
+    html = ''
+    html << content_tag(tag) do
+      link_to '降序', bills_path(search: params[:search], order: "#{obj}.desc", from: (params[:search] ? nil : 'search'))
+    end
+    html << content_tag(tag) do
+      link_to '升序', bills_path(search: params[:search], order: "#{obj}.asc", from: (params[:search] ? nil : 'search'))
+    end
+    html
+  end
+
 end

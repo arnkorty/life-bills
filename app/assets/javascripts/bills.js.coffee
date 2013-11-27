@@ -61,7 +61,6 @@ jQuery(document).ready ->
 		id = data.real_id
 		tr = jQuery("#"+ id)
 
-		alert(tr)
 		tr.parent().find('tr').removeClass('success')
 		tds = tr.find("td")		
 		for td in tds

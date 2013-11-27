@@ -53,6 +53,12 @@ class BillsController < ApplicationController
     @bills_infos[:outlay] = @bills.where(bill_type_id: Settings.bill_types.outlay).sum(:money)
     @bills_infos[:lend]   = @bills.where(bill_type_id: Settings.bill_types.lend).sum(:money)
     @bills_infos[:borrow] = @bills.where(bill_type_id: Settings.bill_types.borrow).sum(:money)
+    if params[:order] && params[:order].is_a?(String)
+      order = params[:order].split('.')
+      if ['desc', 'asc'].include?(order[-1])
+        @bills = @bills.send(order[-1],order[0])
+      end      
+    end
     @bills   = @bills.desc(:created_at).page(params[:page])
     @bill    = current_user.bills.new
     @person  = Person.new

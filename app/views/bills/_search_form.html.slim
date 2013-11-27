@@ -10,7 +10,7 @@
           .form-group
             = f.label '分类',class:'col-sm-2 control-label'
             .col-sm-10.input-group.modal-list
-          	  = render_bill_multiple_select_tag(current_user.items.bill_items(Settings.bill_types.income), {object: :bill, method: :item_id}, data: {placeholder: '选择项目'})
+          	  = render_bill_multiple_select_tag(current_user.items, {object: :bill, method: :item_id}, data: {placeholder: '选择项目'})
           .form-group
             = f.label '账户',class:'col-sm-2 control-label'
             .col-sm-10.input-group.modal-list

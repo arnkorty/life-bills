@@ -1,151 +1,73 @@
-set :application, 'life_bills'
-set :repo_url, 'git@bitbucket.org:arnkorty/life_bills.git'
+set :application, 'life-bills'
+set :repo_url, 'git@bitbucket.org:arnkorty/life-bills.git'
 
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }
 set :branch, 'master'
-
-set :deploy_to, '/var/www/life_bills/'
+set :deploy_to, '/var/www/life-bills'
 set :scm, :git
-set :current_path, "#{deploy_to}current/"
-# set :shared_path, '/var/www/life_bills/'
-set :cd_current_path, "cd #{fetch(:current_path)};"
-# set :format, :pretty
-set :rails_env, fetch(:rails_env, 'production')
-set :rvm_path, '/home/arnkorty/.rvm/bin/rvm'
-set :ruby_version, '2.0.0'
-set :rvm_cmd, "cd #{current_path};#{fetch(:rvm_path)} #{fetch(:ruby_version)} do "
-set :bundle, "#{fetch(:rvm_cmd)} bundle "
-set :bundle_cmd, "#{fetch(:rvm_cmd)} bundle exec "
+
+set :format, :pretty
 set :log_level, :debug
 set :pty, true
+set :default_shell, '/bin/bash -l'
+#ssh_options[:forward_agent] = true
+# set :linked_files, %w{config/database.yml}
+# set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
-set :puma_state, "#{fetch(:current_path)}tmp/pids/puma.state"
-set :puma_pid, "#{fetch(:current_path)}tmp/pids/puma.pid"
-set :puma_bind, "unix://#{fetch(:current_path)}/tmp/sockets/puma.sock"
-set :puma_conf, "#{fetch(:current_path)}config/puma.rb"
-set :puma_role, :app
-# For RVM users, it is advisable to set in your deploy.rb for now :
-set :puma_cmd, "#{fetch(:bundle_cmd)}  puma "
-set :pumactl_cmd, "#{fetch(:bundle_cmd)}  pumactl "
+# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+set :keep_releases, 10
 
-set :backup_trigger, "life_bills_backup"
-set :backup_config, "#{current_path}/backup/config.rb"
-
-namespace :puma do 
-  desc 'Start puma'
-  task :start do 
-    on roles(fetch(:puma_role)) do 
-      within current_path do
-        #if fetch(:pumactl_cmd)
-        #  execute "#{fetch(:pumactl_cmd)} -C #{fetch(:puma_conf)}"
-        #else
-          execute "#{fetch(:puma_cmd)} -C #{fetch(:puma_conf)}"
-        #end
-      end
-    end
-  end
-  %w[halt stop restart phased-restart status].each do |command|
-    desc "#{command} puma"
-    task command do
-      on roles (fetch(:puma_role)) do
-        within current_path do
-          if  fetch(:pumactl_cmd)
-            execute "#{fetch(:pumactl_cmd)} -S #{fetch(:puma_state)} #{command}"
-          else
-            execute "#{fetch(:puma_cmd)} -S #{fetch(:puma_state)} #{command}"
-          end
-        end
-      end
-    end
-  end
-end
-
-# task :restart do 
-#   on roles(:app) do 
-#   end
-# end
+set :user, 'arnkorty'
+set :rvm_type, :user
+set :rvm_ruby_version, '2.1.0'
+set :rvm_path, '~/.rvm'
+set :puma_bind, -> { File.join('unix:///', 'tmp', 'life-bills_puma.sock') }
+set :puma_conf, -> { "#{File.join(shared_path,'config','puma.rb')}" }
+set :puma_workers, 2
 
 namespace :deploy do
 
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-
-    end
-  end
-  
-  task :start do 
-    on roles(:app), in: :sequence do       
-      # execute fetch(:puma_cmd), "-C #{fetch(:puma_conf)}"
+      # Your restart mechanism here, for example:
+      # execute :touch, release_path.join('tmp/restart.txt')
     end
   end
 
-  task :start_at_update do
-    invoke('deploy:sync_sources')
-    invoke('deploy:update_gem')
-    invoke('deploy:compile_assets')
-    invoke('deploy:start')
+  desc 'start application'
+  task :start do
+    on roles(:app), in: :sequence, wait: 5 do
+      # Your restart mechanism here, for example:
+      # execute :touch, release_path.join('tmp/restart.txt')
+    end
   end
-  task :mongoid_create_indexes do 
-    on roles(:app), in: :sequence do
-      within current_path do
-        execute "RAILS_ENV=production #{fetch(:bundle_cmd)} rake db:mongoid:create_indexes"
+
+ desc "Symlink shared resources on each release" # 配置文件
+  task :symlink_shared do 
+    on roles(:all), in: :sequence, wait: 5 do
+      %w(mongoid.yml application.yml).each do |secure_file|
+        execute "ln -nfs #{shared_path}/config/#{secure_file} #{release_path}/config/#{secure_file}"
+      end
+      SSHKit.config.command_map[:rvm] = "#{fetch(:rvm_path)}/bin/rvm"
+
+      rvm_prefix = "#{fetch(:rvm_path)}/bin/rvm #{fetch(:rvm_ruby_version)} do"
+      fetch(:rvm_map_bins).each do |command|
+        SSHKit.config.command_map.prefix[command.to_sym].unshift(rvm_prefix)
       end
     end
   end
 
-  task :sync_sources do 
-    on roles(:app), in: :sequence do 
-      within current_path do 
-        execute "#{fetch(:cd_current_path)} git pull"
-      end
+  after :restart, :clear_cache do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+      # Here we can do anything such as:
+      # within release_path do
+      #   execute :rake, 'cache:clear'
+      # end
     end
   end
 
-  task :update do
-    invoke('deploy:sync_sources')
-    invoke('deploy:update_gem')
-    invoke('deploy:compile_assets')
-    on roles(:app), in: :sequence do
-    end
-  end
+  after :finishing, 'deploy:cleanup'
 
-  task :compile_assets do 
-    on roles(:app), in: :sequence do
-      within current_path do
-        execute " RAILS_ENV=production #{fetch(:bundle_cmd)} rake assets:precompile"      
-      end
-    end
-  end
-  task :update_gem do 
-    on (roles(:app)), in: :sequence do 
-      within current_path do 
-        execute "RAILS_ENV=production #{fetch(:bundle)}"
-      end
-    end
-  end
-
-  task :backup do 
-    on (roles(:db)), in: :sequence do 
-      execute "#{fetch(:rvm_cmd)} backup perform --trigger  #{fetch(:backup_trigger)} --config_file #{fetch(:backup_config)}"
-    end
-  end
-  #after :restart, :clear_cache do
-  #  on roles(:app), in: :groups, limit: 3, wait: 10 do
-  #    # Here we can do anything such as:
-  #    within current_path do
-  #      execute " RAILS_ENV=production #{fetch(:bundle_cmd)} rake cache:clear"
-  #    end
-  #  end
-  #end
-
-  after "deploy:restart", 'puma:restart'
-  after "deploy:update",  'puma:restart'
-  after :finishing,       'deploy:cleanup'
-  after "deploy:start",   "puma:start"
-  # after "deploy:stop",           "puma:stop"
-  # after "deploy:restart",        "puma:restart"
-  # before 'deploy:start', 'deploy:update_gem'
-
-  # after "deploy:create_symlink", "puma:after_symlink"
 end
+before 'deploy:assets:precompile', 'deploy:symlink_shared'

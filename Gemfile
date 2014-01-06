@@ -1,11 +1,6 @@
-if ENV['SSH_CLIENT'] || ENV['TRAVIS']
-	source 'https://rubygems.org'
-else
-	source 'http://ruby.taobao.org'
-end
-
+source 'http://ruby.taobao.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.0'
+gem 'rails', '~> 4.0.0'
 
 
 # Use SCSS for stylesheets
@@ -37,7 +32,7 @@ gem 'kaminari'
 # gem 'twitter-bootstrap-rails'
 gem 'cancan'
 gem 'simple_form'
-gem 'mongoid',      github: "mongoid/mongoid"
+gem 'mongoid',github:"mongoid/mongoid"
 
 gem 'settingslogic'
 # gem 'haml-rails'
@@ -47,7 +42,6 @@ gem 'weixin_rails', github: "arnkorty/weixin_rails", branch: :master
 gem 'short_url',    github: "arnkorty/short_url", tag: 'v0.0.1'
 gem 'actionpack-xml_parser'
 
-
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
@@ -55,22 +49,25 @@ end
 
 
 group :development,:test do
-	gem 'pry-rails'
-	gem 'better_errors'
-	gem "binding_of_caller"
-	gem 'rack-mini-profiler'
-	gem 'capistrano', '~> 3.0.1'
-	gem 'capistrano-rvm', '~> 0.0.3'	
+  gem 'pry-rails'
+  gem 'better_errors'
+  gem "binding_of_caller"
+  gem 'rack-mini-profiler'
+  gem 'capistrano', '~> 3.0.1'
+  gem 'capistrano-rails', '~> 1.1.0'
+  gem 'capistrano-rvm', '~> 0.0.3'
+  gem 'capistrano-bundler', '~> 1.1.0'
+  gem 'capistrano3-puma'
 end
 
 group :test do
-	gem 'capybara'
-	gem 'database_cleaner'
-	gem 'rspec-rails'
-	gem 'factory_girl_rails'
-	gem 'cucumber-rails',require:false
-	gem 'email_spec'
-	gem 'launchy'	
+  gem 'capybara'
+  gem 'database_cleaner'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'cucumber-rails',require:false
+  gem 'email_spec'
+  gem 'launchy'	
 end
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -82,6 +79,5 @@ end
 # gem 'capistrano', group: :development
 
 # Use debugger
-gem 'debugger', group: [:development, :test]
-# Use puma as web server
+#gem 'debugger', group: [:development, :test]
 gem 'puma'

@@ -13,6 +13,12 @@ class Weixin::CommonController < Weixin::ApplicationController
     end
   end
 
+  def url
+    url = weixin_params.content.sub(/(url\:|url)/,'')
+    url = 'http://' + url unless url !~ /^http:\/\//
+    redirect_to url    
+  end
+
   def missing
     if current_wxuser.user && !current_wxuser.next_actions
       @weixin_type = 'text' 

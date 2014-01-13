@@ -5,7 +5,8 @@ set :repo_url, 'git@bitbucket.org:arnkorty/life-bills.git'
 set :branch, 'master'
 set :deploy_to, '/var/www/life-bills'
 set :scm, :git
-
+set :ssh_options, { forward_agent: true }
+#    forward_agent: false,
 set :format, :pretty
 set :log_level, :debug
 set :pty, true

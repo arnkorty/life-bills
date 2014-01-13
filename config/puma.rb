@@ -1,4 +1,4 @@
-APP_ROOT = '/var/www/life_bills/current'
+APP_ROOT = '/var/www/life-bills/current'
 PUMA_PIDS_DIR = "#{APP_ROOT}/tmp/pids"
 unless File.exist? PUMA_PIDS_DIR
   require 'fileutils'

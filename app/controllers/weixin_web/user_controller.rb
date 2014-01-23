@@ -14,7 +14,7 @@ class WeixinWeb::UserController < WeixinWeb::ApplicationController
     if params[:flag] == 'signin'
       if params[:user][:login].include?('#')
         user = User.where(name: params[:user][:login].split('#').first).first
-        person = user.people.where(name: params[:user][:login].split('#').last)
+        person = user.people.where(name: params[:user][:login].split('#').last).first
         if person.password_valid?(params[:user][:password])
           current_wuser.person = person
           if current_wuser.save

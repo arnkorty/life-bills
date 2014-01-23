@@ -6,11 +6,18 @@ class WeixinUser
   field :weixin_id, type: String 
   field :signature, type: String  
   field :request_options, type: Hash
+  field :type_flag, type: String
   
   belongs_to :user 
+  belongs_to :person
 
   embeds_many :next_actions
+  
 
+  def user_or_person
+    type_flag == 'user' ? user : person
+  end
+  
   class << self
     def signature_from(weixin_id)
       wuser = WeixinUser.where(weixin_id: weixin_id).first

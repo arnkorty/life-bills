@@ -9,6 +9,7 @@ class Bill
   field :money, type: Float
   field :bill_time, type: Date
   field :remark, type: String
+  field :is_enable, type: Boolean
 
   belongs_to :user
 
@@ -26,6 +27,14 @@ class Bill
     asso.validates :bill_type_id
   end  
   validates_numericality_of :money
+  
+  before_validate :set_account
+  
+  def set_account
+    if user.blank? && person
+      user = person.user
+    end
+  end
 
   scope :type_of,-> (flag) { where(bill_type_id: flag) }
 

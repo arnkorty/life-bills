@@ -39,7 +39,6 @@ class WeixinWeb::BillsController < WeixinWeb::ApplicationController
   # # POST /weixin_web/bills.json
   def create
     @bill = current_user.bills.new(weixin_web_bill_params)
-
     respond_to do |format|
       if @bill.save
         format.html { redirect_to weixin_web_bills_path(weixin_id: params[:id],signature: params[:signature]), notice: 'Bill was successfully created.' }

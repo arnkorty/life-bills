@@ -12,12 +12,24 @@ class WeixinWeb::UserController < WeixinWeb::ApplicationController
 
   def bind      
     if params[:flag] == 'signin'
-      user = User.find_first_by_auth_conditions(params[:user])
-      if user.valid_password?(params[:user][:password])
-        current_wuser.user = user
-        if current_wuser.save 
-					current_wuser.after_bind_for_action
-          return render text: '绑定成功！', layout: false, status: 200
+      if params[:user][:login].include?('#')
+        user = User.where(name: params[:user][:login].split('#').first).first
+        person = user.people.where(name: params[:user][:login].split('#').last)
+        if person.password_valid?(params[:user][:password])
+          current_wuser.person = person
+          if current_wuser.save
+            current_wuser.after_bind_for_action
+            return render text: '绑定成功', layout: false, status: 200
+          end
+        end
+      else
+        user = User.find_first_by_auth_conditions(params[:user])
+        if user.valid_password?(params[:user][:password])
+          current_wuser.user = user
+          if current_wuser.save 
+					  current_wuser.after_bind_for_action
+            return render text: '绑定成功！', layout: false, status: 200
+          end
         end
       end
     else

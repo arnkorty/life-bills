@@ -12,13 +12,13 @@ class WeixinWeb::ApplicationController < ActionController::Base
   end
   def current_user
     if current_wuser
-      @current_user ||= current_wuser.user
+      @current_user ||= current_wuser.user_or_person
       #@current_user ||= User.first
     end
   end
   def valid_request?
     if current_wuser.signature != params[:signature]
-      render text: 'Sorry,你访问的地址过去,请重新获取地址！', status: 422
+      render text: 'Sorry,你访问的地址过期,请重新获取地址！', status: 422
       return
     end
   end 

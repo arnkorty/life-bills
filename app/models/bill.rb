@@ -28,9 +28,9 @@ class Bill
   end  
   validates_numericality_of :money
   
-  before_validate :set_account
+  before_validation :set_user
   
-  def set_account
+  def set_user
     if user.blank? && person
       user = person.user
     end

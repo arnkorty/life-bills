@@ -1,4 +1,4 @@
-= simple_form_for @bill,url: weixin_web_bills_path, html:{role: 'form'} do |f|
+= simple_form_for @bill,url: weixin_web_bills_path(@bill), html:{role: 'form'} do |f|
   fieldset
     lagend 
       = render_action_name + ' 账单'

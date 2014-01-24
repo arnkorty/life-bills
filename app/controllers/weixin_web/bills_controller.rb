@@ -11,7 +11,7 @@ class WeixinWeb::BillsController < WeixinWeb::ApplicationController
     if params[:search]
 
     end
-    @bills       = @bills.desc(:created_at).page(params[:page])
+    @bills       = @bills.desc(:bill_time).page(params[:page])
   end
   # # GET /weixin_web/bills/1
   # # GET /weixin_web/bills/1.json

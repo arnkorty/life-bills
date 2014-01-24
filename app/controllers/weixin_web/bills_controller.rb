@@ -59,7 +59,7 @@ class WeixinWeb::BillsController < WeixinWeb::ApplicationController
     end
     respond_to do |format|
       if @bill.update(weixin_web_bill_params)
-        format.html { redirect_to @weixin_web_bill, notice: 'Bill was successfully updated.' }
+        format.html { redirect_to weixin_web_bills_path(weixin_id: params[:weixin_id], signature: params[:signature]), notice: 'Bill was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -76,7 +76,7 @@ class WeixinWeb::BillsController < WeixinWeb::ApplicationController
     end
     @bill.destroy
     respond_to do |format|
-      format.html { redirect_to weixin_web_bills_url }
+      format.html { redirect_to weixin_web_bills_path(weixin_id: params[:weixin_id], signature: params[:signature]) }
       format.json { head :no_content }
     end
   end

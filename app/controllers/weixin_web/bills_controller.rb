@@ -6,7 +6,7 @@ class WeixinWeb::BillsController < WeixinWeb::ApplicationController
 	before_action :request_user?
 
   def index
-    @bills       = current_user.bills
+    @bills       = current_user.is_a?(User)? current_user.bills : current_user.user.bills
     @total_money = @bills.sum(:money)
     if params[:search]
 
@@ -53,6 +53,9 @@ class WeixinWeb::BillsController < WeixinWeb::ApplicationController
   # # PATCH/PUT /weixin_web/bills/1
   # # PATCH/PUT /weixin_web/bills/1.json
   def update
+    if @bill.is_enable || (@bill.person != current_user && @bill.user != current_user) 
+       redirect_to weixin_web_bills_url
+    end
     respond_to do |format|
       if @bill.update(weixin_web_bill_params)
         format.html { redirect_to @weixin_web_bill, notice: 'Bill was successfully updated.' }
@@ -67,6 +70,7 @@ class WeixinWeb::BillsController < WeixinWeb::ApplicationController
   # # DELETE /weixin_web/bills/1
   # # DELETE /weixin_web/bills/1.json
   def destroy
+    return unless current_user.is_a? User
     @bill.destroy
     respond_to do |format|
       format.html { redirect_to weixin_web_bills_url }

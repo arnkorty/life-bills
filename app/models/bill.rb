@@ -9,7 +9,7 @@ class Bill
   field :money, type: Float
   field :bill_time, type: Date
   field :remark, type: String
-  field :is_enable, type: Boolean
+  field :is_enable, type: Boolean, default: false
 
   belongs_to :user
 

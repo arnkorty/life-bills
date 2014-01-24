@@ -7,7 +7,9 @@ table.table.table-striped.table-hover.table-bordered
     th 账单金额      
     th 项目       
     th 账户       
-    th 成员       
+    th 成员   
+	- if login_user?
+	  th 确认
     th 备注
     th 操作
   - @bills.each_with_index do |bill,index|
@@ -19,13 +21,15 @@ table.table.table-striped.table-hover.table-bordered
       td field='item.name' = master_name(bill.item)
       td field='account.name' = master_name(bill.account)
       td field='person.name' = master_name(bill.person)
+	  th field='is_enable' = bill.is_enable
       td field='remark' = truncate(bill.remark, length: 10)
       td
-        a.ajax-remove-tr href= weixin_web_bill_path(bill,weixin_id: params[:weixin_id], signature: params[:signature]) data-method='delete' data-remote=true data-remove-id=bill.id data-type='json' data-confirm='确定删除？'
-          i.glyphicon.glyphicon-remove
-        | &nbsp;&nbsp;&nbsp;&nbsp;
-        a.ajax-edit-tr href=edit_weixin_web_bill_path(bill,weixin_id: params[:weixin_id], signature: params[:signature])   data-edit-id=bill.id 
-          i.glyphicon.glyphicon-edit
+	  	- if login_user? || (!bill.is_enable && bill.person == @current_user)
+          a.ajax-remove-tr href= weixin_web_bill_path(bill,weixin_id: params[:weixin_id], signature: params[:signature]) data-method='delete' data-remote=true data-remove-id=bill.id data-type='json' data-confirm='确定删除？'
+            i.glyphicon.glyphicon-remove
+          | &nbsp;&nbsp;&nbsp;&nbsp;
+		  a.ajax-edit-tr href=edit_weixin_web_bill_path(bill,weixin_id: params[:weixin_id], signature: params[:signature])   data-edit-id=bill.id 
+            i.glyphicon.glyphicon-edit
 .row
   = paginate @bills
 

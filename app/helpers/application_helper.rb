@@ -68,5 +68,9 @@ module ApplicationHelper
     end
     raw str
   end
+  
+  def login_user?
+    @current_user.is_a? User
+  end
 
 end

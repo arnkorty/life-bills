@@ -71,7 +71,9 @@ class WeixinWeb::BillsController < WeixinWeb::ApplicationController
   # # DELETE /weixin_web/bills/1
   # # DELETE /weixin_web/bills/1.json
   def destroy
-    return unless current_user.is_a? User
+    if (@bill.is_enable) || (@bill.person != current_user && @bill.user != current_user) 
+       redirect_to weixin_web_bills_url
+    end
     @bill.destroy
     respond_to do |format|
       format.html { redirect_to weixin_web_bills_url }

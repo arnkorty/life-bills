@@ -26,7 +26,7 @@ table.table.table-striped.table-hover.table-bordered
       td field='remark' = truncate(bill.remark, length: 10)
       td
 	  	- if login_user? || (!bill.is_enable && bill.person == @current_user)
-          a.ajax-remove-tr href= weixin_web_bill_path(bill,weixin_id: params[:weixin_id], signature: params[:signature]) data-method='delete'  data-remove-id=bill.id  data-confirm='确定删除？'
+          a.ajax-remove-tr href= weixin_web_bill_path(bill,weixin_id: params[:weixin_id], signature: params[:signature]) data-method='delete'  data-remove-id=bill.id  data-confirm='确定删除？' style='margin-bottom: 10px'
             i.glyphicon.glyphicon-remove
           | &nbsp;&nbsp;&nbsp;&nbsp;
 		  a.ajax-edit-tr href=edit_weixin_web_bill_path(bill,weixin_id: params[:weixin_id], signature: params[:signature])   data-edit-id=bill.id 

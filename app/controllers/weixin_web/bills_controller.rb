@@ -55,7 +55,7 @@ class WeixinWeb::BillsController < WeixinWeb::ApplicationController
   # # PATCH/PUT /weixin_web/bills/1.json
   def update
     if @bill.is_enable || (@bill.person != current_user && @bill.user != current_user) 
-       redirect_to weixin_web_bills_url
+       redirect_to weixin_web_bills_path(weixin_id: params[:weixin_id], signature: params[:signature])
     end
     respond_to do |format|
       if @bill.update(weixin_web_bill_params)

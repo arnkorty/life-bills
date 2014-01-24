@@ -18,9 +18,9 @@ LifeBills::Application.routes.draw do
 		post 'user/bind',   as: 'bind'
     get 'user/signup', as: 'signup'
     get 'user/signin', as: 'signin'
+    patch 'bills' => 'bills#update', as: 'bills'
     resources :bills do 
       get 'get_items', on: :collection
- 
     end
 	end
 

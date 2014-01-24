@@ -42,7 +42,7 @@ class WeixinWeb::BillsController < WeixinWeb::ApplicationController
     @bill.user = current_user.user
     respond_to do |format|
       if @bill.save
-        format.html { redirect_to weixin_web_bills_path(weixin_id: params[:id],signature: params[:signature]), notice: 'Bill was successfully created.' }
+        format.html { redirect_to weixin_web_bills_path(weixin_id: params[:weixin_id],signature: params[:signature]), notice: 'Bill was successfully created.' }
         format.json { render action: 'show', status: :created, location: @weixin_web_bill }
       else
         format.html { render action: 'new' }

@@ -7,7 +7,7 @@ class Bill
 
   field :bill_type_id, type: Integer
   field :money, type: Float
-  field :bill_time, type: Date
+  field :bill_time, type: Date, default: Time.now
   field :remark, type: String
   field :is_enable, type: Boolean, default: false
 

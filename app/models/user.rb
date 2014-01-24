@@ -82,6 +82,10 @@ class User
       username = email.split('@')[0]
     end
   end
+  
+  def user
+    self
+  end
 
   def username
     read_attribute(:username) || name

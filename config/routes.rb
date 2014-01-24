@@ -20,6 +20,7 @@ LifeBills::Application.routes.draw do
     get 'user/signin', as: 'signin'
     resources :bills do 
       get 'get_items', on: :collection
+ 
     end
 	end
 

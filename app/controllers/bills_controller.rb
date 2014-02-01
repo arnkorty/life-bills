@@ -71,6 +71,10 @@ class BillsController < ApplicationController
   def show
   end
 
+  def export
+    @people = current_user.people
+  end
+
   # GET /bills/new
   def new
     @bill = Bill.new

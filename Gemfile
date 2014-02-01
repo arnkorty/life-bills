@@ -41,6 +41,7 @@ gem 'slim-rails'
 gem 'weixin_rails', github: "arnkorty/weixin_rails", branch: :master
 gem 'short_url',    github: "arnkorty/short_url", tag: 'v0.0.1'
 gem 'actionpack-xml_parser'
+gem 'axlsx_rails'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

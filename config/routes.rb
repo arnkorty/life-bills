@@ -1,6 +1,7 @@
 # encoding: utf-8
 LifeBills::Application.routes.draw do
 
+  get "bills/export", as: :export_bills
   # get "bills/search"
   get "url/:url" => 'url#index'
   # get "user/signup_and_bind"

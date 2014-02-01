@@ -17,6 +17,9 @@
     '
     '
     a.btn.btn-info data-toggle='modal' data-target='#search-form' 高级搜索
+    '
+    '
+    = link_to '导出', export_bills_path(format: 'xlsx')
     == render_new_bill_link
 
   .container

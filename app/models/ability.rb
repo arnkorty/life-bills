@@ -19,6 +19,8 @@ class Ability
     can [:new, :create], Person
     can [:new, :create], Account
     can [:new, :create, :search], Bill
+    
+    can :export, Bill
 
     can [:read, :update, :destroy], Item do |obj|
       obj.user == user

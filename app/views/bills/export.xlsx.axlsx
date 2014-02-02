@@ -1,0 +1,29 @@
+wb = xlsx_package.workbook
+(2011..Time.now.year).each do |year|
+  year_bill = Array.new Settings.bill_types_zh.size
+  wb.add_worksheet(name: "#{year} 年") do |sheet|
+    @people.each do |person|
+      person_bill = Array.new Settings.bill_types_zh.size
+      sheet.add_row [person.name, '时间', *Settings.bill_types_zh ]
+      (1..12).each do |month|
+        month_time = Time.mktime(year, month, 1)
+        row = [person.name, month_time.strftime('%y年%m月'), 0, 0, 0 ,0]
+        bills = person.bills.where(:bill_time.gte => month_time.beginning_of_month, :bill_time.lte => month_time.end_of_month)
+        if bills.present?
+          bills.each do |bill|
+            row[bill.bill_type_id + 2] = row[bill.bill_type_id + 2] + bill.money
+            year_bill[bill.bill_type_id]   ||= 0
+            person_bill[bill.bill_type_id] ||= 0
+            year_bill[bill.bill_type_id]   += bill.money
+            person_bill[bill.bill_type_id] += bill.money 
+          end
+          sheet.add_row row
+        end
+      end
+      sheet.add_row ['合计',nil, *person_bill]
+      sheet.add_row [nil]
+    end
+    sheet.add_row [nil]
+    sheet.add_row ['合计', nil, *year_bill]
+  end
+end

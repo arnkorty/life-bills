@@ -1,4 +1,4 @@
-h4 = "共#{@bills_infos[:size]}条数据,账单金额#{@bills_infos[:money]}.其中支出#{@bills_infos[:outlay]}，收入#{@bills_infos[:income]}，借出#{@bills_infos[:lend]}，归还#{@bills_infos[:borrow]}"
+h4 = "共#{@bills_infos[:size]}条数据,账单金额#{@bills_infos[:income] - @bills_infos[:outlay] - @bills_infos[:lend] + @bills_infos[:borrow]}.其中支出#{@bills_infos[:outlay]}，收入#{@bills_infos[:income]}，借出#{@bills_infos[:lend]}，归还#{@bills_infos[:borrow]}"
 table.table.table-striped.table-hover.table-bordered
   tr
     th

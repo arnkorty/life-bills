@@ -2,11 +2,17 @@ class WeixinWeb::BillsController < WeixinWeb::ApplicationController
   before_action :set_weixin_web_bill, only: [:show, :edit, :update, :destroy]
   # # GET /weixin_web/bills
   # # GET /weixin_web/bills.json 
+
+  skip_before_action :valid_request?, only: :index
 	
-	before_action :request_user?
+	before_action :request_user?, except: :index
 
   def index
-    @bills       = current_user.is_a?(User)? current_user.bills : current_user.user.bills
+    if current_user
+      @bills   = current_user.is_a?(User)? current_user.bills : current_user.user.bills
+    else
+      @bills   = Bill.where(:bill_time.gte => Time.now - 1.year)
+    end
     @total_money = @bills.sum(:money)
     if params[:search]
 

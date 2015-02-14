@@ -10,9 +10,10 @@
  *
  *= require_self
  *= require bootstrap-datepicker
- *= require bootstrap
  *= require_tree .
  */
+@import "bootstrap-sprockets";
+@import "bootstrap";
 a.new-bill{
 		margin-left: 12px;	
 }

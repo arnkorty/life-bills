@@ -47,15 +47,15 @@ LifeBills::Application.routes.draw do
     resources :items
 	end
 
-  namespace :weixin do 
-    weixin_rails_for_signature 'common#signature', as: 'weixin_signature', via: [:get, :post]
-    weixin_rails_for_event 'events#subscribe', event: 'subscribe', as: 'weixin_event_subscribe'
-    weixin_rails_for_event 'events#unsubscribe', event: 'unsubscribe', as: 'weixin_event_unsubscribe'
-    weixin_rails_for_text 'bills#search',content: /^bills#search/, as: "weixin_bills_search"
-    weixin_rails_for_text 'common#url',content: /^url/, as: "weixin_url"
-    weixin_rails_for_text 'common#help',content: /(^help$)|(^帮助$)|(^\?$)/, as: "weixin_help"
-		weixin_rails_for_text 'common#missing', as: 'weixin_missing'     
-  end
+#  namespace :weixin do 
+#    weixin_rails_for_signature 'common#signature', as: 'weixin_signature', via: [:get, :post]
+#    weixin_rails_for_event 'events#subscribe', event: 'subscribe', as: 'weixin_event_subscribe'
+#    weixin_rails_for_event 'events#unsubscribe', event: 'unsubscribe', as: 'weixin_event_unsubscribe'
+#    weixin_rails_for_text 'bills#search',content: /^bills#search/, as: "weixin_bills_search"
+#    weixin_rails_for_text 'common#url',content: /^url/, as: "weixin_url"
+#    weixin_rails_for_text 'common#help',content: /(^help$)|(^帮助$)|(^\?$)/, as: "weixin_help"
+#		weixin_rails_for_text 'common#missing', as: 'weixin_missing'     
+#  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

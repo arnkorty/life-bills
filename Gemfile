@@ -38,8 +38,8 @@ gem 'settingslogic'
 # gem 'haml-rails'
 gem 'slim-rails'
 
-gem 'weixin_rails', github: "arnkorty/weixin_rails", branch: :master
-gem 'short_url',    github: "arnkorty/short_url", tag: 'v0.0.1'
+# gem 'weixin_rails', github: "arnkorty/weixin_rails", branch: :master
+# gem 'short_url',    github: "arnkorty/short_url", tag: 'v0.0.1'
 gem 'actionpack-xml_parser'
 gem 'axlsx_rails'
 

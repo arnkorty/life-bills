@@ -1,13 +1,35 @@
 wb = xlsx_package.workbook
+wb.add_worksheet(name: "总结") do |sheet|
+  sheet.add_row  ['截至时间', nil, "~#{Time.now.to_s(:db)}"]
+  sheet.add_row  [nil]
+  sheet.add_row  [nil]
+  sheet.add_row  ['总结', '存入', '消费/支出', '借出', '归还', '总余额']
+  t_mn1 = current_user.bills.where(bill_type_id: 1).sum(:money).to_i
+  t_mn0 = current_user.bills.where(bill_type_id: 0).sum(:money).to_i
+  t_mn2 = current_user.bills.where(bill_type_id: 2).sum(:money).to_i
+  t_mn3 = current_user.bills.where(bill_type_id: 3).sum(:money).to_i
+  sheet.add_row  ['金额', t_mn1, t_mn0, t_mn2, t_mn3, t_mn1 + t_mn3 - t_mn2 - t_mn0]
+  sheet.add_row  [nil]
+  sheet.add_row  [nil]
+  sheet.add_row  ['姓名', '存入', '消费/支出', '借出', '归还', '总余额']
+  @people.each do |person|
+    t_mn1 = person.bills.where(bill_type_id: 1).sum(:money).to_i
+    t_mn0 = person.bills.where(bill_type_id: 0).sum(:money).to_i
+    t_mn2 = person.bills.where(bill_type_id: 2).sum(:money).to_i
+    t_mn3 = person.bills.where(bill_type_id: 3).sum(:money).to_i
+    sheet.add_row  [person.name, t_mn1, t_mn0, t_mn2, t_mn3, t_mn1 + t_mn3 - t_mn2 - t_mn0]
+  end
+end
+
 (2011..Time.now.year).each do |year|
   year_bill = Array.new Settings.bill_types_zh.size
   wb.add_worksheet(name: "#{year} 年") do |sheet|
     @people.each do |person|
       person_bill = Array.new Settings.bill_types_zh.size
-      sheet.add_row [person.name, '时间', *Settings.bill_types_zh ]
+      sheet.add_row [person.name, '时间', *Settings.bill_types_zh, '备注']
       (1..12).each do |month|
         month_time = Time.mktime(year, month, 1)
-        row = [person.name, month_time.strftime('%y年%m月'), 0, 0, 0 ,0]
+        row = [person.name, month_time.strftime('%y年%m月'), 0, 0, 0 ,0, '']
         bills = person.bills.where(:bill_time.gte => month_time.beginning_of_month, :bill_time.lte => month_time.end_of_month)
         if bills.present?
           bills.each do |bill|
@@ -17,6 +39,7 @@ wb = xlsx_package.workbook
             year_bill[bill.bill_type_id]   += bill.money
             person_bill[bill.bill_type_id] += bill.money 
           end
+          row[-1] = bills.map{|bill| bill.remark}.flatten.join(';')
           sheet.add_row row
         end
       end
@@ -26,4 +49,35 @@ wb = xlsx_package.workbook
     sheet.add_row [nil]
     sheet.add_row ['合计', nil, *year_bill]
   end
+end
+
+@people.each do |person|
+  person_bill = Array.new Settings.bill_types_zh.size
+  wb.add_worksheet(name: person.name) do |sheet|
+    sheet.add_row [person.name, '时间', *Settings.bill_types_zh, '备注']
+    (2011..Time.now.year).each do |year|
+      (1..12).each do |month|
+        month_time = Time.mktime(year, month, 1)
+        row = [person.name, month_time.strftime('%y年%m月'), 0, 0, 0 ,0, '']
+        bills = person.bills.where(:bill_time.gte => month_time.beginning_of_month, :bill_time.lte => month_time.end_of_month)
+        if bills.present?
+          bills.each do |bill|
+            row[bill.bill_type_id + 2] = row[bill.bill_type_id + 2] + bill.money
+          end
+          row[-1] = bills.map{|bill| bill.remark}.flatten.join(';')
+          sheet.add_row row
+        end
+      end
+    end
+    sheet.add_row [nil]
+    sheet.add_row [nil]
+    t_mn1 = person.bills.where(bill_type_id: 1).sum(:money).to_i
+    t_mn0 = person.bills.where(bill_type_id: 0).sum(:money).to_i
+    t_mn2 = person.bills.where(bill_type_id: 2).sum(:money).to_i
+    t_mn3 = person.bills.where(bill_type_id: 3).sum(:money).to_i
+
+    sheet.add_row  ['合计', '存入', '消费/支出', '借出', '归还', '总余额']
+    sheet.add_row  [nil , t_mn1, t_mn0, t_mn2, t_mn3, t_mn1 + t_mn3 - t_mn2 - t_mn0]
+  end
+
 end

@@ -20,8 +20,8 @@ defaults: &defaults
   admin_emails:
     - arnkorty.fu@gmail.com
   bill_types_zh:
-    - 支出
-    - 收入
+    - 消费/支出
+    - 存入
     - 借出
     - 归还
 development:

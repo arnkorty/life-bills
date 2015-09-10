@@ -22,9 +22,9 @@ set :user, 'arnkorty'
 set :rvm_type, :user
 set :rvm_ruby_version, '2.1.0'
 set :rvm_path, '~/.rvm'
-set :puma_bind, -> { File.join('unix:///', 'tmp', 'life-bills_puma.sock') }
-set :puma_conf, -> { "#{File.join(shared_path,'config','puma.rb')}" }
-set :puma_workers, 2
+#set :puma_bind, -> { File.join('unix:///', 'tmp', 'life-bills_puma.sock') }
+#set :puma_conf, -> { "#{File.join(shared_path,'config','puma.rb')}" }
+#set :puma_workers, 2
 
 namespace :deploy do
 

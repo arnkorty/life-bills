@@ -1,9 +1,6 @@
 # Life Bills 
 生活账单管理系统，管理你的生活
-## 官网
-http://life-bills.arnkorty.info
 
-微信公众帐号： arnkorty
 
 ## 系统要求
 * Ruby 2.0.0 (or 1.9.3)
